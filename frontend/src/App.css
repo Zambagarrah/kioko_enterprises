@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Kaushan+Script&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans+Mono:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Molle&display=swap');
+
+/* CSS Variables */
+:root {
+    /* Font Family */
+    --font-special: "Kaushan Script", cursive;
+    --font-logo: "Molle", cursive;
+    --font-header: "Kanit", sans-serif;
+    --font-body: "Noto Sans Mono", sans-serif;
+    --font-placeholder: "Lobster Two", cursive;
+
+    /* Colors */
+    --color-highlight: #ff0000;
+    --color-highlight2: #0F3460;
+    --color-special: #FFB830;
+    --color-text: #F1F3F8;
+    --color-secondary: #16213E;
+    --color-background: linear-gradient(135deg, #1A1A2E, #16213E, #0F3460);
+    --color-background2: #1A1A2E;
+}
+
+/* Global Styles */
+html {
+    font-size: 62.5%;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6.5rem;
+}
+
+body {
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    box-sizing: border-box;
+    background: var(--color-background);
+    color: var(--color-text);
+}
+
+section {
+    padding: 5rem 2rem;
+}
+
+a {
+    text-decoration: none !important;
+    cursor: pointer;    
+}
+
+ul {
+    list-style: none;
+}
+
+/* Reusable CSS Classes */
+.logo {
+    display: flex;
+    font-family: var(--font-special);
+    font-size: 2rem;
+    color: var(--color-text);
+    margin: 0 4rem; 
+    justify-content: center;  
+    align-items: center;
+    border-radius: 2rem;
+    transition: all .3s ease-in-out;
+}
+
+.logo:hover {
+    color: #979696;
+    border-left: 5px solid #979696;
+}
+
+.logo--initials {
+    text-decoration: none; 
+    margin: 0 1.5rem;
+    font-size: 4rem;
+}
+
+.logo--text {
+    width: 5rem;
+    font-size: 2.5rem;
+    display: inline-block;
+}
+
+.link--btn {
+    background-color: #ffffff;
+    color: #000000;
+    align-items: center;
+    font-size: 1.5rem;
+    transition: .2s ease-in-out;
+    padding: 1rem 1rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    display: inline-block;
+}
+
+.link--btn:hover {
+    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+}
+
+/* Scrollbar Styles */
+*::-webkit-scrollbar {
+    height: 0.5rem;
+    width: 1rem;
+}
+
+*::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+*::-webkit-scroll bar-thumb {
+    background-color: var(--color-highlight);
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    html {
+        font-size: 55%;
+    }
+
+    section {
+        padding: 5rem 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        margin: 0 0 3rem 0;
+    }
+
+    section {
+        padding: 3rem 1rem;
+    }
+}
+
+@media (max-width: 450px) {
+    html {
+        font-size: 50%;
+    }
+}

@@ -1,0 +1,69 @@
+.dropdown {
+  display: inline-block;
+}
+
+/* Styling the dropdown button */
+.dropdown--btn {
+  background-color: transparent;
+  color: var(--color-text);
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  margin-left: -2rem;
+  transition: 0.3s ease-in-out;
+}
+
+.dropdown--btn:hover {
+  color: #979696;
+}
+
+/* Styling the badge */
+.badge {
+  position: absolute;
+  top: -1.5rem;
+  right: -.5rem;
+  background-color: #ff0000;
+  color: #ffffff;
+  font-size: 1.5rem;
+  padding: 4px 6px;
+  border-radius: 50%;
+}
+
+/* Styling the dropdown menu */
+.dropdown--content {
+  display: none;
+  position: absolute;
+  width: 15rem;
+  background-color: var(--color-background2);
+  padding: 1rem;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.411);
+  z-index: 1;
+}
+
+/* Show dropdown content on hover */
+.dropdown:hover .dropdown--content {
+  display: block;
+}
+
+/* Menu items */
+.dropdown--content .cart--preview {
+  color: var(--color-text);
+  padding: 1.2rem 1.6rem;
+  text-decoration: none;
+  display: block;
+  border-radius: 0.5rem;
+  transition: 0.3s ease-in-out;
+}
+
+.dropdown--content .cart--preview:hover {
+  background-color: #f1f1f1;
+  color: #000000;
+}
+
+.dropdown--content .cart--preview img {
+  height: auto;
+  width: 5rem;
+}

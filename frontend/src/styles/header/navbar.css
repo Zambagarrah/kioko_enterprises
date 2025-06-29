@@ -1,0 +1,112 @@
+.header--navbar {
+    background-color: #b4c0c2;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.header--navbar {
+    flex-wrap: wrap; /* Adjusts layout if the screen is narrow */
+}
+
+.header--navbar .navbar--left .menu{
+    transition: all 0.3s ease-in-out;
+    color: #000000;
+    gap: .5rem;
+    transition: all .3s ease-in-out;
+}
+
+.header--navbar .navbar--left .menu:hover {
+    color: var(--color-highlight);
+}
+
+.header--navbar .navbar--left .menu .bx-menu-alt-left{
+    font-size: 2.5rem;
+}
+
+.header--navbar .navbar--left .menu .nav--text {
+    font-size: 1.5rem;
+    font-family: var(--font-header);
+    font-weight: 600;
+}
+
+.header--navbar .navbar--left .menu .bxs-chevrons-down {
+    font-size: 1.2rem;
+}
+
+.header--navbar .navbar--left .menu--separator {
+    color: #000000;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.navbar--left .others {
+    gap: 1rem; 
+}
+
+.others ul {
+    margin: 0;
+    padding: 0;
+}
+
+.others li {
+    display: inline-block; /* Prevents vertical stacking */
+    margin: 0 1rem; /* Removes unnecessary margins */
+    padding: 0; /* Removes unnecessary padding */
+}
+
+.others li a {
+    transition: all 0.3s ease-in-out;
+    padding: .5rem;
+    border-radius: .5rem;
+}
+
+.others li a:hover {
+    color: #ffffff;
+    background-color: #000000;
+    padding: 0.8rem;
+}
+
+.navbar--left .navlink {
+    color: #000000;
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-family: var(--font-header);
+}
+
+.navbar--right {
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-family: var(--font-header);
+    gap: .5rem;
+}
+
+
+.navbar--right .feedback,
+.navbar--right .help--center {
+    gap: .5rem;
+    color: #000000;
+    padding: .4rem;
+    border-radius: .5rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar--right .feedback:hover,
+.navbar--right .help--center:hover {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+.navbar--right .bx-chat,
+.navbar--right .bx-help-circle {
+    font-size: 2rem;
+}
+
+.navbar--right .menu--separator {
+    color: #000000;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
