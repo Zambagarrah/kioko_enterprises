@@ -1,0 +1,23 @@
+Create Django Project and Core App
+    We start by creating the main Django project (kioko_enterprises) and a reusable app (core) that will house shared logic like templates, base views, and utility functions.
+        kioko_enterprises/ contains project settings and URLs
+        core/ will serve as the foundational app for shared components
+Install Required Packages
+    Install the core dependencies needed for this project:
+        djangorestframework: for building RESTful APIs
+        django-allauth: for email/password and Google login
+        django-bootstrap5: for responsive UI components
+        python-decouple: for managing environment variables securely
+        psycopg2-binary: PostgreSQL adapter for Django
+Configure Environment Variables
+    Create a .env file to store sensitive configuration values like database credentials and secret keys. This keeps secrets out of version control and supports reproducibility across environments.
+Update settings.py
+    Modify Django settings to:
+        Load environment variables using python-decouple
+        Configure PostgreSQL as the database
+        Register installed apps including DRF, Allauth, and Bootstrap
+        Set up authentication backends for social login
+Configure Static and Media Files
+    Set up paths for static assets (CSS, JS) and media files (product images, user uploads). This ensures proper handling during development and deployment.
+Create Base Template
+    Create a reusable base HTML template using Bootstrap 5. This will serve as the layout foundation for all pages (homepage, product listings, cart, etc.).
