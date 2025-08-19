@@ -62,3 +62,13 @@ Phase 2: User Management System
             Configure Email Backend (Development Mode)
             Add Password Reset URLs
             Create Custom Templates
+Phase 3: Product Catalog
+    Define Category and Product Models
+    Register Models in Admin
+    Migrate Database
+    Create Product List and Detail Views
+    Create Templates
+        product_list.html
+        product_detail.html
+    Add URLs
+    Media File Handling
