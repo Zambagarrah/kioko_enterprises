@@ -16,6 +16,9 @@ DATABASES = {
     }
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@kiokoenterprises.co.ke'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

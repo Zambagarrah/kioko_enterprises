@@ -54,3 +54,11 @@ Phase 2: User Management System
             Personal info
             Shipping address
             Order history (placeholder for now)
+        Password Reset via Email
+            Enable users to:
+                Request a password reset via email
+                Receive a secure link to reset their password
+                Complete the reset using a branded, Bootstrap-styled form
+            Configure Email Backend (Development Mode)
+            Add Password Reset URLs
+            Create Custom Templates
