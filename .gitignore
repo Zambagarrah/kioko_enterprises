@@ -292,6 +292,11 @@ pip-selfcheck.json
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
+
 .ionide
+
+### Google Auth
+*.json
+./client_secret_321012083864-lb7pnjnqtuft8qu1drg41pt1u2lni5o0.apps.googleusercontent.com.json
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,django,venv
