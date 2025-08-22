@@ -72,3 +72,12 @@ Phase 3: Product Catalog
         product_detail.html
     Add URLs
     Media File Handling
+Phase 4: Cart System
+    Define Cart and CartItem Models
+    Migrate Database
+    Cart Utility Functions
+    Cart Views
+    Cart Template
+        product_detail.html
+    Add URLs
+    Add “Add to Cart” Button

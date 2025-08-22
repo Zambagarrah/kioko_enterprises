@@ -11,5 +11,9 @@
     <p><strong>Stock:</strong> {{ product.stock }}</p>
     <p>{{ product.description }}</p>
   </div>
+  <form method="post" action="{% url 'add_to_cart' product.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Add to Cart</button>
+  </form>
 </div>
 {% endblock %}
