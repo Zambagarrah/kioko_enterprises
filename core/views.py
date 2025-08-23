@@ -1,8 +1,16 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
-from .forms import CustomUserCreationForm
-from .models import Product, Category, CartItem
+from .forms import (
+    CustomUserCreationForm,
+    CheckoutForm,
+)
+from .models import (
+    Product,
+    Category,
+    CartItem,
+    OrderItem,
+)
 from .utils import get_or_create_cart
 
 
@@ -83,6 +91,6 @@ def checkout(request):
 
     return render(request, 'core/checkout.html', {'form': form, 'cart': cart})
 
+
 def order_success(request):
     return render(request, 'core/order_success.html')
-
