@@ -94,3 +94,6 @@ Phase 5: Checkout & Payments
             order_success.html
     Add URLs
     Payment Integration (Preview)
+Phase 5(Sub-Continuation): Checkout Flow Validation
+    Confirm Cart Functionality.
+    

@@ -13,4 +13,3 @@ class CheckoutForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['shipping_address', 'payment_method']
-x
