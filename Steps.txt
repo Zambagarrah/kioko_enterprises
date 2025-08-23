@@ -124,4 +124,9 @@ Phase 6: Payment Gateway Integration
     Route Payment Method in Checkout View
     Create Confirmation Template
     Add URL Route
+    Scaffolding Mpesa Payments:
+        Scaffold process_mpesa(order) Function
+            core/payment/gateways.py
+        Scaffold the M-Pesa Callback View
+
 
