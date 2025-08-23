@@ -3,7 +3,8 @@
 <h2>Checkout</h2>
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
+  {{ form.shipping_address.label_tag }} {{ form.shipping_address }}
+  {{ form.payment_method.label_tag }} {{ form.payment_method }}
   <button type="submit" class="btn btn-primary">Place Order</button>
 </form>
 {% endblock %}

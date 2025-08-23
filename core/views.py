@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from .utils import get_or_create_cart
 from .forms import (
     CustomUserCreationForm,
     CheckoutForm,
@@ -11,8 +12,12 @@ from .models import (
     CartItem,
     OrderItem,
 )
-from .utils import get_or_create_cart
-
+from core.payment.gateways import (
+    process_mpesa,
+    process_airtel,
+    process_paypal,
+    process_bank,
+)
 
 def register(request):
     form = CustomUserCreationForm(request.POST or None)
@@ -73,8 +78,7 @@ def checkout(request):
     if request.method == 'POST' and form.is_valid():
         order = form.save(commit=False)
         order.user = request.user
-        order.total = sum(item.product.price *
-                          item.quantity for item in cart.items.all())
+        order.total = sum(item.product.price * item.quantity for item in cart.items.all())
         order.save()
 
         for item in cart.items.all():
@@ -86,11 +90,27 @@ def checkout(request):
             )
         cart.items.all().delete()
 
-        # Redirect to payment gateway or confirmation page
-        return redirect('order_success')
+        method = form.cleaned_data['payment_method']
+        gateway_map = {
+            'mpesa': process_mpesa,
+            'airtel': process_airtel,
+            'paypal': process_paypal,
+            'bank': process_bank,
+        }
+
+        # Defensive fallback if method is not in map
+        processor = gateway_map.get(method)
+        if processor:
+            message = processor(order)
+        else:
+            message = "Invalid payment method selected."
+
+        return render(request, 'core/payment_confirmation.html', {'message': message})
 
     return render(request, 'core/checkout.html', {'form': form, 'cart': cart})
 
 
 def order_success(request):
     return render(request, 'core/order_success.html')
+
+

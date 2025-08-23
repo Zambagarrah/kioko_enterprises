@@ -96,4 +96,32 @@ Phase 5: Checkout & Payments
     Payment Integration (Preview)
 Phase 5(Sub-Continuation): Checkout Flow Validation
     Confirm Cart Functionality.
-    
+        Add items to cart via product detail view
+        View cart summary at /cart/
+        Confirm quantity updates and item removal work
+    Checkout Page Rendering
+        Navigate to /checkout/
+        Confirm form fields:
+            Shipping address
+            Payment method dropdown
+            Submit button
+    Form Submission Logic
+        Submit valid data → redirect to /order-success/
+        Cart clears post-submission
+        Order and OrderItems saved in DB
+    Admin Verification
+        Log into /admin
+        Confirm new Order entry with correct:
+            User
+            Total
+            Payment method
+        Confirm associated OrderItems
+Phase 6: Payment Gateway Integration
+    Extend Checkout Form
+    Update Checkout Template
+    Create Payment Gateway Abstraction
+        core/payment/gateways.py
+    Route Payment Method in Checkout View
+    Create Confirmation Template
+    Add URL Route
+
