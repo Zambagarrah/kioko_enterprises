@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
 from django.utils import timezone
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class UserManager(BaseUserManager):
@@ -30,6 +31,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     email = models.EmailField(unique=True)
+    phone_number = PhoneNumberField(region='KE', unique=True, null=True, blank=True)
     date_of_birth = models.DateField()
     role = models.CharField(
         max_length=10, choices=ROLE_CHOICES, default='customer')

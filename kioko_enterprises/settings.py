@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'rest_framework',
     'django_bootstrap5',
+    'phonenumber_field',
     'core',
 ]
 

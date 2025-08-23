@@ -7,9 +7,10 @@ from .models import (
 
 
 class CustomUserCreationForm(UserCreationForm):
+    phone_number = PhoneNumberField(region='KE')
     class Meta:
         model = User
-        fields = ['email', 'date_of_birth', 'password1', 'password2']
+        fields = ['email','phone_number', 'date_of_birth', 'password1', 'password2']
 
 
 class CheckoutForm(forms.ModelForm):
