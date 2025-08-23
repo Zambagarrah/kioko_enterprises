@@ -1,3 +1,4 @@
+africastalking==1.2.9
 asgiref==3.9.1
 certifi==2025.8.3
 cffi==1.17.1
@@ -8,10 +9,12 @@ django-allauth==65.11.0
 django-bootstrap5==25.2
 djangorestframework==3.16.1
 idna==3.10
+pillow==11.3.0
 psycopg2-binary==2.9.10
 pycparser==2.22
 PyJWT==2.10.1
 python-decouple==3.8
 requests==2.32.5
+schema==0.7.7
 sqlparse==0.5.3
 urllib3==2.5.0

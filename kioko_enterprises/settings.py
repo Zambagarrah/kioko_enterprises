@@ -9,6 +9,12 @@ MPESA_SHORTCODE = config('MPESA_SHORTCODE')
 MPESA_PASSKEY = config('MPESA_PASSKEY')
 MPESA_CALLBACK_URL = config('MPESA_CALLBACK_URL')
 
+from decouple import config
+
+AT_USERNAME = config('AT_USERNAME')
+AT_API_KEY = config('AT_API_KEY')
+AT_CALLBACK_URL = config('AT_CALLBACK_URL')
+
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)

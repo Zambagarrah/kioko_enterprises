@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
 from .utils import get_or_create_cart
 from .forms import (
     CustomUserCreationForm,
@@ -18,6 +21,7 @@ from core.payment.gateways import (
     process_paypal,
     process_bank,
 )
+from core.payment.messages import get_confirmation_message
 
 def register(request):
     form = CustomUserCreationForm(request.POST or None)
@@ -76,11 +80,13 @@ def checkout(request):
     form = CheckoutForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
+        # Create order
         order = form.save(commit=False)
         order.user = request.user
         order.total = sum(item.product.price * item.quantity for item in cart.items.all())
         order.save()
 
+        # Create order items
         for item in cart.items.all():
             OrderItem.objects.create(
                 order=order,
@@ -90,6 +96,7 @@ def checkout(request):
             )
         cart.items.all().delete()
 
+        # Dispatch payment gateway
         method = form.cleaned_data['payment_method']
         gateway_map = {
             'mpesa': process_mpesa,
@@ -97,11 +104,10 @@ def checkout(request):
             'paypal': process_paypal,
             'bank': process_bank,
         }
-
-        # Defensive fallback if method is not in map
         processor = gateway_map.get(method)
         if processor:
-            message = processor(order)
+            processor(order)
+            message = get_confirmation_message(method, order.id)
         else:
             message = "Invalid payment method selected."
 
@@ -109,8 +115,33 @@ def checkout(request):
 
     return render(request, 'core/checkout.html', {'form': form, 'cart': cart})
 
-
 def order_success(request):
     return render(request, 'core/order_success.html')
+
+
+
+@csrf_exempt
+def mpesa_callback(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        # Extract relevant fields
+        result_code = data.get('Body', {}).get('stkCallback', {}).get('ResultCode')
+        result_desc = data.get('Body', {}).get('stkCallback', {}).get('ResultDesc')
+        metadata = data.get('Body', {}).get('stkCallback', {}).get('CallbackMetadata', {}).get('Item', [])
+
+        # Optional: log metadata or update order status
+        print("M-Pesa Callback Received:", result_desc)
+
+        # Respond to Safaricom
+        return JsonResponse({"ResultCode": 0, "ResultDesc": "Accepted"})
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+@csrf_exempt
+def airtel_callback(request):
+    data = json.loads(request.body)
+    print("Airtel callback received:", data)
+    return JsonResponse({"status": "received"})
 
 

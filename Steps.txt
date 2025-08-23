@@ -127,6 +127,22 @@ Phase 6: Payment Gateway Integration
     Scaffolding Mpesa Payments:
         Scaffold process_mpesa(order) Function
             core/payment/gateways.py
-        Scaffold the M-Pesa Callback View
+        Scaffold the M-Pesa Callback View & url
+        Localize Confirmation Message
+    Scaffolding Airtel Payments:
+        Install Africa’s Talking SDK
+            pip install africastalking
+        Configure .env and settings.py
+            .env (
+                AT_USERNAME=sandbox
+                AT_API_KEY=your_africastalking_api_key
+            )
+            settings.py (
+                AT_USERNAME = config('AT_USERNAME')
+                AT_API_KEY = config('AT_API_KEY')
+            )
+        Scaffold process_airtel() in gateways.py
+        Add Callback URL
+        Scaffold the view
 
 

@@ -1,7 +1,8 @@
-import requests
-import base64
 from datetime import datetime
 from django.conf import settings
+import requests
+import base64
+import africastalking
 
 def get_timestamp():
     return datetime.now().strftime('%Y%m%d%H%M%S')
@@ -41,9 +42,25 @@ def process_mpesa(order):
     else:
         return "Failed to initiate M-Pesa payment. Try again or contact support."
 
-def process_airtel(order):
-    return f"Simulated Airtel Money payment for Order #{order.id}"
+africastalking.initialize(settings.AT_USERNAME, settings.AT_API_KEY)
+mobile = africastalking.MobilePayment
 
+def process_airtel(order):
+    try:
+        response = mobile.checkout(
+            product_name="KiokoStore",  # Must match your AT product
+            phone_number=order.user.phone_number,
+            currency_code="KES",
+            amount=int(order.total),
+            metadata={
+                "order_id": str(order.id),
+                "description": "Airtel Money payment for Kioko Enterprises"
+            }
+        )
+        return "Airtel Money payment initiated. Please complete on your phone."
+    except Exception as e:
+        print("Airtel Money error:", str(e))
+        return "Failed to initiate Airtel Money payment. Try again or contact support."
 def process_paypal(order):
     return f"Redirect to PayPal for Order #{order.id}"
 
