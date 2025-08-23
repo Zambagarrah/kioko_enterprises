@@ -81,3 +81,16 @@ Phase 4: Cart System
         product_detail.html
     Add URLs
     Add “Add to Cart” Button
+Phase 5: Checkout & Payments
+    Define Order and Payment Models
+    Migrate Database
+    Create Checkout Form
+    Checkout View
+    Checkout Template
+        checkout.html
+    Order Confirmation Page
+        views
+        template
+            order_success.html
+    Add URLs
+    Payment Integration (Preview)
