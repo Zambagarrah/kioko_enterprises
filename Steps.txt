@@ -172,5 +172,8 @@ Phase 7: Post-Payment Engagement
         Scaffold SMS Confirmation Hook
         Prep Email Confirmation Stub
     Order Tracking & Status
+        Add status Field to Order Model
+        Create Migration
+        Update Admin Dashboard
     Customer Portal
     Analytics & Reporting
