@@ -4,6 +4,7 @@ from .models import (
     Product,
     Order,
     OrderItem,
+    BankPaymentProof,
 )
 
 admin.site.register(Category)
@@ -28,3 +29,14 @@ class OrderItemAdmin(admin.ModelAdmin):
 
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
+
+class BankPaymentProofAdmin(admin.ModelAdmin):
+    list_display = ('order', 'uploaded_by', 'verified', 'uploaded_at')
+    list_filter = ('verified',)
+    search_fields = ('order__id', 'uploaded_by__username')
+    actions = ['mark_verified']
+
+    def mark_verified(self, request, queryset):
+        queryset.update(verified=True)
+        
+admin.site.register(BankPaymentProof, BankPaymentProofAdmin)
