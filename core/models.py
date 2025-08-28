@@ -138,3 +138,22 @@ class BankPaymentProof(models.Model):
 
     def __str__(self):
         return f"Proof for Order #{self.order.id}"
+    
+class PaymentLog(models.Model):
+    PAYMENT_METHODS = [
+        ('mpesa', 'M-Pesa'),
+        ('paypal', 'PayPal'),
+        ('bank', 'Bank Transfer'),
+    ]
+
+    order = models.ForeignKey('Order', on_delete=models.CASCADE)
+    method = models.CharField(max_length=20, choices=PAYMENT_METHODS)
+    status = models.CharField(max_length=50)
+    reference = models.CharField(max_length=100, blank=True)
+    message = models.TextField(blank=True)
+    metadata = models.JSONField(blank=True, null=True)
+    logged_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.method.upper()} log for Order #{self.order.id}"
+

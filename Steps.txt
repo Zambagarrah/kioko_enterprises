@@ -160,4 +160,6 @@ Phase 6: Payment Gateway Integration
         Add Staff Dashboard in Admin
         Scaffold Printable Receipt View
         Prep SMS Confirmation Hook (Stub)
+    Payment Logging System
+        Create PaymentLog Model
 
