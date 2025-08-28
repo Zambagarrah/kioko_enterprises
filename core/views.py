@@ -22,6 +22,7 @@ from core.payment.gateways import (
 )
 from core.payment.messages import get_confirmation_message
 
+
 def register(request):
     form = CustomUserCreationForm(request.POST or None)
     if form.is_valid():
@@ -82,7 +83,8 @@ def checkout(request):
         # Create order
         order = form.save(commit=False)
         order.user = request.user
-        order.total = sum(item.product.price * item.quantity for item in cart.items.all())
+        order.total = sum(item.product.price *
+                          item.quantity for item in cart.items.all())
         order.save()
 
         # Create order items
@@ -95,32 +97,39 @@ def checkout(request):
             )
         cart.items.all().delete()
 
-        # Dispatch payment gateway
+        # Dispatch payment processor
         method = form.cleaned_data['payment_method']
         gateway_map = {
             'mpesa': process_mpesa,
-            # 'airtel': process_airtel,
             'paypal': process_paypal,
             'bank': process_bank,
+            # 'airtel': process_airtel,  # Temporarily disabled
         }
+
         processor = gateway_map.get(method)
         if processor:
             result = processor(order)
+
             if method == 'paypal':
-                return redirect(result)  # Redirect to PayPal approval URL
+                # Redirect to PayPal approval URL
+                return redirect(result)
+
+            elif method == 'bank':
+                # Render bank transfer instructions
+                return render(request, 'core/payment_confirmation.html', {'message': result})
+
             else:
+                # Render confirmation message for M-Pesa
                 message = get_confirmation_message(method, order.id)
                 return render(request, 'core/payment_confirmation.html', {'message': message})
         else:
-            return render(request, 'core/payment_confirmation.html', {'message': "Invalid payment method."})
-
-        return render(request, 'core/payment_confirmation.html', {'message': message})
+            return render(request, 'core/payment_confirmation.html', {'message': "Invalid payment method selected."})
 
     return render(request, 'core/checkout.html', {'form': form, 'cart': cart})
 
+
 def order_success(request):
     return render(request, 'core/order_success.html')
-
 
 
 @csrf_exempt
@@ -129,9 +138,12 @@ def mpesa_callback(request):
         data = json.loads(request.body)
 
         # Extract relevant fields
-        result_code = data.get('Body', {}).get('stkCallback', {}).get('ResultCode')
-        result_desc = data.get('Body', {}).get('stkCallback', {}).get('ResultDesc')
-        metadata = data.get('Body', {}).get('stkCallback', {}).get('CallbackMetadata', {}).get('Item', [])
+        result_code = data.get('Body', {}).get(
+            'stkCallback', {}).get('ResultCode')
+        result_desc = data.get('Body', {}).get(
+            'stkCallback', {}).get('ResultDesc')
+        metadata = data.get('Body', {}).get('stkCallback', {}).get(
+            'CallbackMetadata', {}).get('Item', [])
 
         # Optional: log metadata or update order status
         print("M-Pesa Callback Received:", result_desc)
@@ -141,11 +153,13 @@ def mpesa_callback(request):
 
     return JsonResponse({"error": "Invalid request"}, status=400)
 
+
 @csrf_exempt
 def airtel_callback(request):
     data = json.loads(request.body)
     print("Airtel callback received:", data)
     return JsonResponse({"status": "received"})
+
 
 @csrf_exempt
 def paypal_callback(request):
@@ -161,5 +175,3 @@ def paypal_callback(request):
     return render(request, 'core/payment_confirmation.html', {
         'message': "PayPal payment completed successfully."
     })
-
-
