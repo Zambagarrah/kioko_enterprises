@@ -99,6 +99,9 @@ class Order(models.Model):
         ('processing', 'Processing'),
         ('shipped', 'Shipped'),
         ('delivered', 'Delivered'),
+        ('paid', 'Paid'),
+        ('verified', 'Verified'),
+        ('cancelled', 'Cancelled'),
     ]
 
     PAYMENT_METHODS = [

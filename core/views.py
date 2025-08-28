@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 import json
 from core.utils.cart import get_or_create_cart
 from core.payment.messages import get_confirmation_message
@@ -212,3 +213,13 @@ def upload_bank_proof(request, order_id):
 def printable_receipt(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'core/printable_receipt.html', {'order': order})
+
+@staff_member_required
+def update_order_status(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        if new_status in dict(Order.STATUS_CHOICES):
+            order.status = new_status
+            order.save()
+    return render(request, 'core/update_order_status.html', {'order': order, 'choices': Order.STATUS_CHOICES})

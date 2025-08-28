@@ -19,16 +19,17 @@ class OrderItemInline(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user', 'total', 'payment_method', 'created_at')
-    inlines = [OrderItemInline]
-    readonly_fields = ('user', 'total', 'payment_method', 'created_at')
+    list_display = ('id', 'user', 'total', 'payment_method', 'status', 'created_at')
+    list_filter = ('status', 'payment_method')
+    search_fields = ('id', 'user__username')
+
+admin.site.register(Order, OrderAdmin)
 
 
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ('order', 'product', 'quantity', 'price')
 
 
-admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
 
 
