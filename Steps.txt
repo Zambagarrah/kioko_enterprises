@@ -148,5 +148,6 @@ Phase 6: Payment Gateway Integration
         Add PayPal Credentials to .env & settings.py
         Create PayPal Processor Functions
         Update Checkout View to Redirect to PayPal
+        Scaffold Callback View
 
 

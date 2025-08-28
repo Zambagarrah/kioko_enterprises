@@ -148,4 +148,19 @@ def airtel_callback(request):
     print("Airtel callback received:", data)
     return JsonResponse({"status": "received"})
 
+@csrf_exempt
+def paypal_callback(request):
+    order_id = request.GET.get('token')  # PayPal returns token as order ID
+    access_token = get_paypal_access_token()
+    url = f"{settings.PAYPAL_API_BASE}/v2/checkout/orders/{order_id}/capture"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    response = requests.post(url, headers=headers)
+    response.raise_for_status()
+    data = response.json()
+
+    # Optional: update order status
+    return render(request, 'core/payment_confirmation.html', {
+        'message': "PayPal payment completed successfully."
+    })
+
 
