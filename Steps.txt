@@ -175,5 +175,6 @@ Phase 7: Post-Payment Engagement
         Add status Field to Order Model
         Create Migration
         Update Admin Dashboard
+        Add Staff-Side Status Update View (Optional)
     Customer Portal
     Analytics & Reporting

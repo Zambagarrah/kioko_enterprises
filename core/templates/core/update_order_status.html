@@ -1,0 +1,10 @@
+<h2>Update Status for Order #{{ order.id }}</h2>
+<form method="post">
+  {% csrf_token %}
+  <select name="status">
+    {% for code, label in choices %}
+      <option value="{{ code }}" {% if order.status == code %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Update</button>
+</form>
