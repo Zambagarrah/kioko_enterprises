@@ -114,4 +114,17 @@ def process_paypal(order):
 # -------------------------------
 
 def process_bank(order):
-    return f"Bank transfer instructions for Order #{order.id}"
+    instructions = f"""
+    Bank Transfer Instructions for Order #{order.id}:
+
+    Bank Name: Kioko Bank
+    Account Name: Kioko Enterprises Ltd
+    Account Number: 1234567890
+    Branch Code: 001
+    Amount: KSh {order.total}
+
+    Reference: Order#{order.id}
+    Please send proof of payment to payments@kioko.co.ke or WhatsApp +254712345678.
+    """
+    return instructions.strip()
+

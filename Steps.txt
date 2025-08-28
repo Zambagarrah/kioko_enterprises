@@ -150,5 +150,6 @@ Phase 6: Payment Gateway Integration
         Update Checkout View to Redirect to PayPal
         Scaffold Callback View
     Localize Confirmation Messages
-
+    Bank Transfer Integration
+        
 
