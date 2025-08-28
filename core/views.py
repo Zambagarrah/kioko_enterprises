@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 import json
-from .utils import get_or_create_cart
+from core.utils.cart import get_or_create_cart
+from core.payment.messages import get_confirmation_message
+from core.utils.sms import send_sms_confirmation
+from core.utils.payments import log_payment
 from .forms import (
     CustomUserCreationForm,
     CheckoutForm,
@@ -15,14 +18,13 @@ from .models import (
     Category,
     CartItem,
     OrderItem,
+    Order,
 )
 from core.payment.gateways import (
     process_mpesa,
     process_paypal,
     process_bank,
 )
-from core.payment.messages import get_confirmation_message
-from core.utils.sms import send_sms_confirmation
 
 
 def register(request):
@@ -77,6 +79,7 @@ def view_cart(request):
     return render(request, 'core/cart.html', {'cart': cart})
 
 
+@login_required
 def checkout(request):
     cart = get_or_create_cart(request)
     form = CheckoutForm(request.POST or None)
@@ -85,8 +88,7 @@ def checkout(request):
         # Create order
         order = form.save(commit=False)
         order.user = request.user
-        order.total = sum(item.product.price *
-                          item.quantity for item in cart.items.all())
+        order.total = sum(item.product.price * item.quantity for item in cart.items.all())
         order.save()
 
         # Create order items
@@ -112,24 +114,29 @@ def checkout(request):
         if processor:
             result = processor(order)
 
+            # Log payment attempt
+            log_payment(order, method, 'initiated', f"{method.capitalize()} payment triggered.")
+
+            # Send SMS confirmation
+            send_sms_confirmation(
+                order.user.phone_number,
+                f"Order #{order.id} received. Payment method: {method.capitalize()}."
+            )
+
+            # Handle gateway-specific response
             if method == 'paypal':
-                # Redirect to PayPal approval URL
                 return redirect(result)
 
             elif method == 'bank':
-                # Render bank transfer instructions
                 return render(request, 'core/payment_confirmation.html', {'message': result})
 
             else:
-                # Render confirmation message for M-Pesa
                 message = get_confirmation_message(method, order.id)
                 return render(request, 'core/payment_confirmation.html', {'message': message})
         else:
             return render(request, 'core/payment_confirmation.html', {'message': "Invalid payment method selected."})
 
     return render(request, 'core/checkout.html', {'form': form, 'cart': cart})
-
-
 def order_success(request):
     return render(request, 'core/order_success.html')
 
@@ -195,4 +202,3 @@ def printable_receipt(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'core/printable_receipt.html', {'order': order})
 
-send_sms_confirmation(order.user.phone_number, f"Order #{order.id} received. Awaiting bank payment verification.")
