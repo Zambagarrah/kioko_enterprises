@@ -22,6 +22,7 @@ from core.payment.gateways import (
     process_bank,
 )
 from core.payment.messages import get_confirmation_message
+from core.utils.sms import send_sms_confirmation
 
 
 def register(request):
@@ -194,3 +195,4 @@ def printable_receipt(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'core/printable_receipt.html', {'order': order})
 
+send_sms_confirmation(order.user.phone_number, f"Order #{order.id} received. Awaiting bank payment verification.")

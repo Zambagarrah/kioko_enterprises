@@ -159,4 +159,5 @@ Phase 6: Payment Gateway Integration
         Add Upload Form for Users
         Add Staff Dashboard in Admin
         Scaffold Printable Receipt View
+        Prep SMS Confirmation Hook (Stub)
 
