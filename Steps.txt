@@ -166,3 +166,5 @@ Phase 6: Payment Gateway Integration.
         Update Payment Processors to Log Transactions
         Add Admin Dashboard for Logs
 Phase 7: Receipts & Notifications.
+    Add printable_receipt View
+    Create Receipt Template
