@@ -165,8 +165,12 @@ Phase 6: Payment Gateway Integration.
         Create Logging Utility
         Update Payment Processors to Log Transactions
         Add Admin Dashboard for Logs
-Phase 7: Receipts & Notifications.
-    Add printable_receipt View
-    Create Receipt Template
-    Scaffold SMS Confirmation Hook
-    Prep Email Confirmation Stub
+Phase 7: Post-Payment Engagement
+    Receipts & Notifications
+        Add printable_receipt View
+        Create Receipt Template
+        Scaffold SMS Confirmation Hook
+        Prep Email Confirmation Stub
+    Order Tracking & Status
+    Customer Portal
+    Analytics & Reporting
