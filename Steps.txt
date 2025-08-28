@@ -151,5 +151,6 @@ Phase 6: Payment Gateway Integration
         Scaffold Callback View
     Localize Confirmation Messages
     Bank Transfer Integration
-        
+        Scaffold Bank Transfer Processor
+        Update Checkout View to Handle Bank Method
 
