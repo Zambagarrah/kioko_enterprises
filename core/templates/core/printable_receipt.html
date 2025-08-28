@@ -15,6 +15,7 @@
     <div class="header">Kioko Enterprises Receipt</div>
     <div class="info">
       <strong>Order ID:</strong> {{ order.id }}<br>
+      <strong>Status:</strong> {{ order.status|capfirst }}<br>
       <strong>Name:</strong> {{ order.user.username }}<br>
       <strong>Total:</strong> KSh {{ order.total }}<br>
       <strong>Payment Method:</strong> {{ order.payment_method }}<br>
