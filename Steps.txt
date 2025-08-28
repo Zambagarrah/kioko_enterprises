@@ -144,5 +144,8 @@ Phase 6: Payment Gateway Integration
         Scaffold process_airtel() in gateways.py
         Add Callback URL
         Scaffold the view
+    PayPal Integration (Raw Requests)
+        Add PayPal Credentials to .env
+        
 
 

@@ -1,5 +1,4 @@
 from pathlib import Path
-
 from decouple import config
 
 
@@ -9,11 +8,13 @@ MPESA_SHORTCODE = config('MPESA_SHORTCODE')
 MPESA_PASSKEY = config('MPESA_PASSKEY')
 MPESA_CALLBACK_URL = config('MPESA_CALLBACK_URL')
 
-from decouple import config
-
 AT_USERNAME = config('AT_USERNAME')
 AT_API_KEY = config('AT_API_KEY')
 AT_CALLBACK_URL = config('AT_CALLBACK_URL')
+
+PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
+PAYPAL_SECRET = config('PAYPAL_SECRET')
+PAYPAL_API_BASE = config('PAYPAL_API_BASE')
 
 
 SECRET_KEY = config('SECRET_KEY')
