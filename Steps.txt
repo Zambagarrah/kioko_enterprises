@@ -168,3 +168,4 @@ Phase 6: Payment Gateway Integration.
 Phase 7: Receipts & Notifications.
     Add printable_receipt View
     Create Receipt Template
+    Scaffold SMS Confirmation Hook
