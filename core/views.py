@@ -198,7 +198,7 @@ def upload_bank_proof(request, order_id):
 
     return render(request, 'core/upload_bank_proof.html', {'form': form, 'order': order})
 
+@login_required
 def printable_receipt(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'core/printable_receipt.html', {'order': order})
-
