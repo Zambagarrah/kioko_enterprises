@@ -7,6 +7,7 @@ import json
 from core.utils.cart import get_or_create_cart
 from core.payment.messages import get_confirmation_message
 from core.utils.sms import send_sms_confirmation
+from core.utils.email import send_order_email
 from core.utils.payments import log_payment
 from .forms import (
     CustomUserCreationForm,
@@ -88,7 +89,8 @@ def checkout(request):
         # Create order
         order = form.save(commit=False)
         order.user = request.user
-        order.total = sum(item.product.price * item.quantity for item in cart.items.all())
+        order.total = sum(item.product.price *
+                          item.quantity for item in cart.items.all())
         order.save()
 
         # Create order items
@@ -115,13 +117,17 @@ def checkout(request):
             result = processor(order)
 
             # Log payment attempt
-            log_payment(order, method, 'initiated', f"{method.capitalize()} payment triggered.")
+            log_payment(order, method, 'initiated',
+                        f"{method.capitalize()} payment triggered.")
 
             # Send SMS confirmation
             send_sms_confirmation(
                 order.user.phone_number,
                 f"Order #{order.id} received. Payment method: {method.capitalize()}."
             )
+
+            # Send order confirmation email
+            send_order_email(order.user, order)
 
             # Handle gateway-specific response
             if method == 'paypal':
@@ -137,6 +143,8 @@ def checkout(request):
             return render(request, 'core/payment_confirmation.html', {'message': "Invalid payment method selected."})
 
     return render(request, 'core/checkout.html', {'form': form, 'cart': cart})
+
+
 def order_success(request):
     return render(request, 'core/order_success.html')
 
@@ -184,7 +192,8 @@ def paypal_callback(request):
     return render(request, 'core/payment_confirmation.html', {
         'message': "PayPal payment completed successfully."
     })
-    
+
+
 def upload_bank_proof(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     form = BankPaymentProofForm(request.POST or None, request.FILES or None)
@@ -197,6 +206,7 @@ def upload_bank_proof(request, order_id):
         return redirect('proof_success')
 
     return render(request, 'core/upload_bank_proof.html', {'form': form, 'order': order})
+
 
 @login_required
 def printable_receipt(request, order_id):
