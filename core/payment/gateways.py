@@ -113,18 +113,29 @@ def process_paypal(order):
 # Bank Transfer (Static)
 # -------------------------------
 
-def process_bank(order):
-    instructions = f"""
-    Bank Transfer Instructions for Order #{order.id}:
+def process_bank(order, lang='en'):
+    if lang == 'sw':
+        return f"""
+        Maelezo ya Uhamisho wa Benki kwa Order #{order.id}:
 
-    Bank Name: Kioko Bank
-    Account Name: Kioko Enterprises Ltd
-    Account Number: 1234567890
-    Branch Code: 001
-    Amount: KSh {order.total}
+        Benki: Kioko Bank
+        Jina la Akaunti: Kioko Enterprises Ltd
+        Nambari ya Akaunti: 1234567890
+        Kiasi: KSh {order.total}
 
-    Reference: Order#{order.id}
-    Please send proof of payment to payments@kioko.co.ke or WhatsApp +254712345678.
-    """
-    return instructions.strip()
+        Rejea: Order#{order.id}
+        Tuma uthibitisho wa malipo kwa payments@kioko.co.ke au WhatsApp +254712345678.
+        """.strip()
+    else:
+        return f"""
+        Bank Transfer Instructions for Order #{order.id}:
 
+        Bank Name: Kioko Bank
+        Account Name: Kioko Enterprises Ltd
+        Account Number: 1234567890
+        Branch Code: 001
+        Amount: KSh {order.total}
+
+        Reference: Order#{order.id}
+        Please send proof of payment to payments@kioko.co.ke or WhatsApp +254712345678.
+        """.strip()
