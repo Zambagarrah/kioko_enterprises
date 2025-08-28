@@ -5,6 +5,7 @@ from .models import (
     Order,
     OrderItem,
     BankPaymentProof,
+    PaymentLog,
 )
 
 admin.site.register(Category)
@@ -30,6 +31,7 @@ class OrderItemAdmin(admin.ModelAdmin):
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
 
+
 class BankPaymentProofAdmin(admin.ModelAdmin):
     list_display = ('order', 'uploaded_by', 'verified', 'uploaded_at')
     list_filter = ('verified',)
@@ -38,5 +40,15 @@ class BankPaymentProofAdmin(admin.ModelAdmin):
 
     def mark_verified(self, request, queryset):
         queryset.update(verified=True)
-        
+
+
 admin.site.register(BankPaymentProof, BankPaymentProofAdmin)
+
+
+class PaymentLogAdmin(admin.ModelAdmin):
+    list_display = ('order', 'method', 'status', 'reference', 'logged_at')
+    list_filter = ('method', 'status')
+    search_fields = ('order__id', 'reference')
+
+
+admin.site.register(PaymentLog, PaymentLogAdmin)
