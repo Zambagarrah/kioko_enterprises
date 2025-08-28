@@ -4,6 +4,7 @@ from .views import (
     airtel_callback,
     paypal_callback,
     upload_bank_proof,
+    printable_receipt,
 )
 
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     path('airtel/callback/', airtel_callback, name='airtel_callback'),
     path('paypal/callback/', paypal_callback, name='paypal_callback'),
     path('upload-proof/<int:order_id>/', upload_bank_proof, name='upload_bank_proof'),
+    path('receipt/<int:order_id>/', printable_receipt, name='printable_receipt'),
 ]

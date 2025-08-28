@@ -1,0 +1,6 @@
+<h2>Receipt for Order #{{ order.id }}</h2>
+<p>Name: {{ order.user.username }}</p>
+<p>Total: KSh {{ order.total }}</p>
+<p>Payment Method: {{ order.payment_method }}</p>
+<p>Date: {{ order.created_at }}</p>
+<button onclick="window.print()">Print Receipt</button>
