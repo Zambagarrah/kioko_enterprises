@@ -166,3 +166,20 @@ Phase 6: Payment Gateway Integration
         Update Payment Processors to Log Transactions
         Add Admin Dashboard for Logs
 
+fix: resolve critical errors in checkout flow, payment logging, and SMS confirmation
+
+- Fixed incorrect import of `PhoneNumberField` in `forms.py` causing NameError
+- Corrected Africa's Talking usage: removed invalid `africastalking.Payment` reference and commented out Airtel integration
+- Replaced broken `get_service` and `from africastalking.Payment import Payment` with correct SDK initialization
+- Removed premature `return` in `process_bank` that blocked Swahili localization
+- Added proper language check and logging inside `process_bank` function
+- Created `PaymentLog` model and `log_payment` utility to track all gateway transactions
+- Ensured `core/utils/payments.py` is a valid package with `__init__.py`
+- Moved `get_or_create_cart` to `core/utils/cart.py` and updated import path
+- Removed invalid module-level call to `send_sms_confirmation(Order.user.phone_number, ...)`
+- Relocated SMS confirmation inside `checkout` view after order creation
+- Fixed misuse of `Order.user.phone_number` (descriptor) by replacing with `order.user.phone_number` (instance)
+- Finalized full `checkout` view with M-Pesa, PayPal, Bank, SMS, and logging support
+
+
+
