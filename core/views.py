@@ -106,10 +106,14 @@ def checkout(request):
         }
         processor = gateway_map.get(method)
         if processor:
-            processor(order)
-            message = get_confirmation_message(method, order.id)
+            result = processor(order)
+            if method == 'paypal':
+                return redirect(result)  # Redirect to PayPal approval URL
+            else:
+                message = get_confirmation_message(method, order.id)
+                return render(request, 'core/payment_confirmation.html', {'message': message})
         else:
-            message = "Invalid payment method selected."
+            return render(request, 'core/payment_confirmation.html', {'message': "Invalid payment method."})
 
         return render(request, 'core/payment_confirmation.html', {'message': message})
 

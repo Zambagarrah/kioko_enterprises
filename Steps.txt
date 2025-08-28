@@ -145,7 +145,8 @@ Phase 6: Payment Gateway Integration
         Add Callback URL
         Scaffold the view
     PayPal Integration (Raw Requests)
-        Add PayPal Credentials to .env
-        
+        Add PayPal Credentials to .env & settings.py
+        Create PayPal Processor Functions
+        Update Checkout View to Redirect to PayPal
 
 
