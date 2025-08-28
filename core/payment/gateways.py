@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.conf import settings
+from core.utils.payments import log_payment
 import requests
 import base64
 
@@ -38,8 +39,10 @@ def process_mpesa(order):
     stk_response = requests.post(stk_url, json=payload, headers=headers)
 
     if stk_response.status_code == 200:
+        log_payment(order, 'mpesa', 'initiated', 'STK push sent')
         return "STK push sent. Please complete payment on your phone."
     else:
+        log_payment(order, 'mpesa', 'failed', 'STK push failed', metadata=stk_response.json())
         return "Failed to initiate M-Pesa payment. Try again or contact support."
 
 # -------------------------------
@@ -107,6 +110,7 @@ def process_paypal(order):
     response.raise_for_status()
     data = response.json()
     approval_url = next(link["href"] for link in data["links"] if link["rel"] == "approve")
+    log_payment(order, 'paypal', 'initiated', 'Redirecting to PayPal', reference=data['id'], metadata=data)
     return approval_url
 
 # -------------------------------
@@ -115,27 +119,31 @@ def process_paypal(order):
 
 def process_bank(order, lang='en'):
     if lang == 'sw':
-        return f"""
+        message = f"""
         Maelezo ya Uhamisho wa Benki kwa Order #{order.id}:
 
-        Benki: Kioko Bank
-        Jina la Akaunti: Kioko Enterprises Ltd
-        Nambari ya Akaunti: 1234567890
-        Kiasi: KSh {order.total}
+        Benki: Kioko Bank  
+        Jina la Akaunti: Kioko Enterprises Ltd  
+        Nambari ya Akaunti: 1234567890  
+        Kiasi: KSh {order.total}  
 
-        Rejea: Order#{order.id}
+        Rejea: Order#{order.id}  
         Tuma uthibitisho wa malipo kwa payments@kioko.co.ke au WhatsApp +254712345678.
         """.strip()
     else:
-        return f"""
+        message = f"""
         Bank Transfer Instructions for Order #{order.id}:
 
-        Bank Name: Kioko Bank
-        Account Name: Kioko Enterprises Ltd
-        Account Number: 1234567890
-        Branch Code: 001
-        Amount: KSh {order.total}
+        Bank Name: Kioko Bank  
+        Account Name: Kioko Enterprises Ltd  
+        Account Number: 1234567890  
+        Branch Code: 001  
+        Amount: KSh {order.total}  
 
-        Reference: Order#{order.id}
+        Reference: Order#{order.id}  
         Please send proof of payment to payments@kioko.co.ke or WhatsApp +254712345678.
         """.strip()
+
+    log_payment(order, 'bank', 'pending', message)
+    return message
+
