@@ -99,7 +99,7 @@ def checkout(request):
         method = form.cleaned_data['payment_method']
         gateway_map = {
             'mpesa': process_mpesa,
-            'airtel': process_airtel,
+            # 'airtel': process_airtel,
             'paypal': process_paypal,
             'bank': process_bank,
         }

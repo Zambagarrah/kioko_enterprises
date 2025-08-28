@@ -153,4 +153,5 @@ Phase 6: Payment Gateway Integration
     Bank Transfer Integration
         Scaffold Bank Transfer Processor
         Update Checkout View to Handle Bank Method
+        Add Dispatcher Hook (if using gateway map)
 
