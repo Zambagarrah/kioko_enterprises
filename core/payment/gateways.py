@@ -61,8 +61,43 @@ def process_airtel(order):
     except Exception as e:
         print("Airtel Money error:", str(e))
         return "Failed to initiate Airtel Money payment. Try again or contact support."
+
+def get_paypal_access_token():
+    url = f"{settings.PAYPAL_API_BASE}/v1/oauth2/token"
+    response = requests.post(
+        url,
+        headers={"Accept": "application/json"},
+        data={"grant_type": "client_credentials"},
+        auth=(settings.PAYPAL_CLIENT_ID, settings.PAYPAL_SECRET)
+    )
+    response.raise_for_status()
+    return response.json()["access_token"]
+
 def process_paypal(order):
-    return f"Redirect to PayPal for Order #{order.id}"
+    access_token = get_paypal_access_token()
+    url = f"{settings.PAYPAL_API_BASE}/v2/checkout/orders"
+    payload = {
+        "intent": "CAPTURE",
+        "purchase_units": [{
+            "amount": {
+                "currency_code": "USD",
+                "value": str(order.total)
+            }
+        }],
+        "application_context": {
+            "return_url": "https://yourdomain.com/paypal/callback/",
+            "cancel_url": "https://yourdomain.com/paypal/cancel/"
+        }
+    }
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+    response = requests.post(url, json=payload, headers=headers)
+    response.raise_for_status()
+    data = response.json()
+    approval_url = next(link["href"] for link in data["links"] if link["rel"] == "approve")
+    return approval_url
 
 def process_bank(order):
     return f"Bank transfer instructions for Order #{order.id}"
