@@ -4,6 +4,7 @@ from phonenumber_field.formfields import PhoneNumberField
 from .models import (
     User,
     Order,
+    BankPaymentProof,
 )
 
 
@@ -27,3 +28,8 @@ class CheckoutForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['shipping_address', 'payment_method']
+        
+class BankPaymentProofForm(forms.ModelForm):
+    class Meta:
+        model = BankPaymentProof
+        fields = ['proof_file', 'notes']

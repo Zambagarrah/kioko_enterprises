@@ -8,6 +8,7 @@ from .utils import get_or_create_cart
 from .forms import (
     CustomUserCreationForm,
     CheckoutForm,
+    BankPaymentProofForm,
 )
 from .models import (
     Product,
@@ -175,3 +176,16 @@ def paypal_callback(request):
     return render(request, 'core/payment_confirmation.html', {
         'message': "PayPal payment completed successfully."
     })
+    
+def upload_bank_proof(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    form = BankPaymentProofForm(request.POST or None, request.FILES or None)
+
+    if request.method == 'POST' and form.is_valid():
+        proof = form.save(commit=False)
+        proof.order = order
+        proof.uploaded_by = request.user
+        proof.save()
+        return redirect('proof_success')
+
+    return render(request, 'core/upload_bank_proof.html', {'form': form, 'order': order})
