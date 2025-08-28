@@ -2,7 +2,10 @@ from datetime import datetime
 from django.conf import settings
 import requests
 import base64
-import africastalking
+
+# -------------------------------
+# M-Pesa (Daraja API)
+# -------------------------------
 
 def get_timestamp():
     return datetime.now().strftime('%Y%m%d%H%M%S')
@@ -12,12 +15,10 @@ def generate_password():
     return base64.b64encode(data_to_encode.encode()).decode()
 
 def process_mpesa(order):
-    # Step 1: Get access token
     auth_url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
     response = requests.get(auth_url, auth=(settings.MPESA_CONSUMER_KEY, settings.MPESA_CONSUMER_SECRET))
     access_token = response.json().get('access_token')
 
-    # Step 2: Prepare payment payload
     headers = {"Authorization": f"Bearer {access_token}"}
     payload = {
         "BusinessShortCode": settings.MPESA_SHORTCODE,
@@ -33,7 +34,6 @@ def process_mpesa(order):
         "TransactionDesc": "Payment for order"
     }
 
-    # Step 3: Send STK Push
     stk_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
     stk_response = requests.post(stk_url, json=payload, headers=headers)
 
@@ -42,25 +42,35 @@ def process_mpesa(order):
     else:
         return "Failed to initiate M-Pesa payment. Try again or contact support."
 
-africastalking.initialize(settings.AT_USERNAME, settings.AT_API_KEY)
-mobile = africastalking.MobilePayment
+# -------------------------------
+# Airtel Money (Temporarily Disabled)
+# -------------------------------
 
-def process_airtel(order):
-    try:
-        response = mobile.checkout(
-            product_name="KiokoStore",  # Must match your AT product
-            phone_number=order.user.phone_number,
-            currency_code="KES",
-            amount=int(order.total),
-            metadata={
-                "order_id": str(order.id),
-                "description": "Airtel Money payment for Kioko Enterprises"
-            }
-        )
-        return "Airtel Money payment initiated. Please complete on your phone."
-    except Exception as e:
-        print("Airtel Money error:", str(e))
-        return "Failed to initiate Airtel Money payment. Try again or contact support."
+# import africastalking
+# africastalking.initialize(settings.AT_USERNAME, settings.AT_API_KEY)
+# payment = africastalking.Payment
+
+# def process_airtel(order):
+#     try:
+#         response = payment.mobile_checkout(
+#             product_name="KiokoStore",
+#             phone_number=order.user.phone_number,
+#             currency_code="KES",
+#             amount=int(order.total),
+#             provider_channel="airtel",
+#             metadata={
+#                 "order_id": str(order.id),
+#                 "description": "Airtel Money payment for Kioko Enterprises"
+#             }
+#         )
+#         return "Airtel Money payment initiated. Please complete on your phone."
+#     except Exception as e:
+#         print("Airtel Money error:", str(e))
+#         return "Failed to initiate Airtel Money payment. Try again or contact support."
+
+# -------------------------------
+# PayPal (REST API)
+# -------------------------------
 
 def get_paypal_access_token():
     url = f"{settings.PAYPAL_API_BASE}/v1/oauth2/token"
@@ -98,6 +108,10 @@ def process_paypal(order):
     data = response.json()
     approval_url = next(link["href"] for link in data["links"] if link["rel"] == "approve")
     return approval_url
+
+# -------------------------------
+# Bank Transfer (Static)
+# -------------------------------
 
 def process_bank(order):
     return f"Bank transfer instructions for Order #{order.id}"

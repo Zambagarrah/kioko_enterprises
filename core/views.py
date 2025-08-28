@@ -17,7 +17,6 @@ from .models import (
 )
 from core.payment.gateways import (
     process_mpesa,
-    process_airtel,
     process_paypal,
     process_bank,
 )

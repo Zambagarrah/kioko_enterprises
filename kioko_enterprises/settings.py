@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_bootstrap5',
     'phonenumber_field',
+    'africastalking',
     'core',
 ]
 
