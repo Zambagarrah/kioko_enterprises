@@ -1,4 +1,4 @@
-Phase 1: Project Setup
+Phase 1: Project Setup.
     Create Django Project and Core App
         We start by creating the main Django project (kioko_enterprises) and a reusable app (core) that will house shared logic like templates, base views, and utility functions.
             kioko_enterprises/ contains project settings and URLs
@@ -23,7 +23,7 @@ Phase 1: Project Setup
     Create Base Template
         Create a reusable base HTML template using Bootstrap 5. This will serve as the layout foundation for all pages (homepage, product listings, cart, etc.).
 
-Phase 2: User Management System
+Phase 2: User Management System.
     Create Custom User Model
         We’ll extend Django’s AbstractUser to include:
             Email as the unique identifier
@@ -62,7 +62,7 @@ Phase 2: User Management System
             Configure Email Backend (Development Mode)
             Add Password Reset URLs
             Create Custom Templates
-Phase 3: Product Catalog
+Phase 3: Product Catalog.
     Define Category and Product Models
     Register Models in Admin
     Migrate Database
@@ -72,7 +72,7 @@ Phase 3: Product Catalog
         product_detail.html
     Add URLs
     Media File Handling
-Phase 4: Cart System
+Phase 4: Cart System.
     Define Cart and CartItem Models
     Migrate Database
     Cart Utility Functions
@@ -81,7 +81,7 @@ Phase 4: Cart System
         product_detail.html
     Add URLs
     Add “Add to Cart” Button
-Phase 5: Checkout & Payments
+Phase 5: Checkout & Payments.
     Define Order and Payment Models
     Migrate Database
     Create Checkout Form
@@ -94,7 +94,7 @@ Phase 5: Checkout & Payments
             order_success.html
     Add URLs
     Payment Integration (Preview)
-Phase 5(Sub-Continuation): Checkout Flow Validation
+Phase 5(Sub-Continuation): Checkout Flow Validation.
     Confirm Cart Functionality.
         Add items to cart via product detail view
         View cart summary at /cart/
@@ -116,7 +116,7 @@ Phase 5(Sub-Continuation): Checkout Flow Validation
             Total
             Payment method
         Confirm associated OrderItems
-Phase 6: Payment Gateway Integration
+Phase 6: Payment Gateway Integration.
     Extend Checkout Form
     Update Checkout Template
     Create Payment Gateway Abstraction
@@ -144,5 +144,38 @@ Phase 6: Payment Gateway Integration
         Scaffold process_airtel() in gateways.py
         Add Callback URL
         Scaffold the view
-
-
+    PayPal Integration (Raw Requests)
+        Add PayPal Credentials to .env & settings.py
+        Create PayPal Processor Functions
+        Update Checkout View to Redirect to PayPal
+        Scaffold Callback View
+    Localize Confirmation Messages
+    Bank Transfer Integration
+        Scaffold Bank Transfer Processor
+        Update Checkout View to Handle Bank Method
+        Add Dispatcher Hook (if using gateway map)
+    Staff-Side Bank Payment Verification Flow
+        Create BankPaymentProof Model
+        Add Upload Form for Users
+        Add Staff Dashboard in Admin
+        Scaffold Printable Receipt View
+        Prep SMS Confirmation Hook (Stub)
+    Payment Logging System
+        Create PaymentLog Model
+        Create Logging Utility
+        Update Payment Processors to Log Transactions
+        Add Admin Dashboard for Logs
+Phase 7: Post-Payment Engagement
+    Receipts & Notifications
+        Add printable_receipt View
+        Create Receipt Template
+        Scaffold SMS Confirmation Hook
+        Prep Email Confirmation Stub
+    Order Tracking & Status
+        Add status Field to Order Model
+        Create Migration
+        Update Admin Dashboard
+        Add Staff-Side Status Update View (Optional)
+        Show Status on Receipt & Confirmation
+    Customer Portal
+    Analytics & Reporting

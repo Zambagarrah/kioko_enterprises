@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Receipt for Order #{{ order.id }}</title>
+  <style>
+    body { font-family: Arial; margin: 2em; }
+    .receipt-box { border: 1px solid #ccc; padding: 1em; max-width: 600px; }
+    .header { font-size: 1.5em; margin-bottom: 1em; }
+    .info { margin-bottom: 1em; }
+    .print-btn { margin-top: 2em; }
+  </style>
+</head>
+<body>
+  <div class="receipt-box">
+    <div class="header">Kioko Enterprises Receipt</div>
+    <div class="info">
+      <strong>Order ID:</strong> {{ order.id }}<br>
+      <strong>Status:</strong> {{ order.status|capfirst }}<br>
+      <strong>Name:</strong> {{ order.user.username }}<br>
+      <strong>Total:</strong> KSh {{ order.total }}<br>
+      <strong>Payment Method:</strong> {{ order.payment_method }}<br>
+      <strong>Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}
+    </div>
+    <button class="print-btn" onclick="window.print()">Print Receipt</button>
+  </div>
+</body>
+</html>

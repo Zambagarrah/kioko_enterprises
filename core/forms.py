@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from phonenumber_field.formfields import PhoneNumberField
 from .models import (
     User,
     Order,
+    BankPaymentProof,
 )
 from phonenumber_field.formfields import PhoneNumberField
 
@@ -27,3 +29,8 @@ class CheckoutForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['shipping_address', 'payment_method']
+        
+class BankPaymentProofForm(forms.ModelForm):
+    class Meta:
+        model = BankPaymentProof
+        fields = ['proof_file', 'notes']
