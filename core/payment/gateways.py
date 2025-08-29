@@ -43,7 +43,7 @@ def process_mpesa(order):
         return "Failed to initiate M-Pesa payment. Try again or contact support."
 
 africastalking.initialize(settings.AT_USERNAME, settings.AT_API_KEY)
-mobile = africastalking.MobilePayment
+mobile = africastalking.SMS  # There was nothing like .MobilePayment it was either USSD or SMS or Airtime or Voice or Application
 
 def process_airtel(order):
     try:

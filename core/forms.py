@@ -4,6 +4,7 @@ from .models import (
     User,
     Order,
 )
+from phonenumber_field.formfields import PhoneNumberField
 
 
 class CustomUserCreationForm(UserCreationForm):
