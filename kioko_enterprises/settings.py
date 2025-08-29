@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'africastalking',
     'core',
+   
 ]
 
 SITE_ID = 1
