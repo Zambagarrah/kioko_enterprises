@@ -247,3 +247,11 @@ def order_history(request):
 
     orders = orders.distinct().order_by('-created_at')
     return render(request, 'core/order_history.html', {'orders': orders, 'form': form})
+
+@login_required
+def request_order_support(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    # Stub: log or email support request
+    print(f"Support requested for Order #{order.id} by {request.user.username}")
+    return render(request, 'core/support_requested.html', {'order': order})
+

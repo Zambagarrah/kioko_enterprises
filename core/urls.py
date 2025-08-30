@@ -7,6 +7,7 @@ from .views import (
     printable_receipt,
     update_order_status,
     order_history,
+    request_order_support,
 )
 
 urlpatterns = [
@@ -17,5 +18,5 @@ urlpatterns = [
     path('receipt/<int:order_id>/', printable_receipt, name='printable_receipt'),
     path('staff/update-status/<int:order_id>/', update_order_status, name='update_order_status'),
     path('my-orders/', order_history, name='order_history'),
-
+    path('support-request/<int:order_id>/', request_order_support, name='request_order_support'),
 ]
