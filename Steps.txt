@@ -182,4 +182,10 @@ Phase 7: Post-Payment Engagement
     Customer Portal
         Add View for Logged-In Users
         Create Dashboard Template
+        Order Filtering & Search
+            Add Filter Form to Dashboard
+        Product Thumbnails in Order History
+            Show Images for Each Item
+        Support Request Button
+            Add “Need Help?” Button per Order
     Analytics & Reporting

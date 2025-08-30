@@ -14,6 +14,7 @@ from .forms import (
     CustomUserCreationForm,
     CheckoutForm,
     BankPaymentProofForm,
+    OrderFilterForm,
 )
 from .models import (
     Product,
@@ -226,5 +227,23 @@ def update_order_status(request, order_id):
 
 @login_required
 def order_history(request):
-    orders = Order.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'core/order_history.html', {'orders': orders})
+    form = OrderFilterForm(request.GET or None)
+    orders = Order.objects.filter(user=request.user)
+
+    if form.is_valid():
+        status = form.cleaned_data.get('status')
+        start = form.cleaned_data.get('start_date')
+        end = form.cleaned_data.get('end_date')
+        product = form.cleaned_data.get('product_name')
+
+        if status:
+            orders = orders.filter(status=status)
+        if start:
+            orders = orders.filter(created_at__gte=start)
+        if end:
+            orders = orders.filter(created_at__lte=end)
+        if product:
+            orders = orders.filter(orderitem__product__name__icontains=product)
+
+    orders = orders.distinct().order_by('-created_at')
+    return render(request, 'core/order_history.html', {'orders': orders, 'form': form})
