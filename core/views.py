@@ -223,3 +223,8 @@ def update_order_status(request, order_id):
             order.status = new_status
             order.save()
     return render(request, 'core/update_order_status.html', {'order': order, 'choices': Order.STATUS_CHOICES})
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'core/order_history.html', {'orders': orders})

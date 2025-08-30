@@ -177,5 +177,9 @@ Phase 7: Post-Payment Engagement
         Update Admin Dashboard
         Add Staff-Side Status Update View (Optional)
         Show Status on Receipt & Confirmation
+        Auto-Update Order Status from Payment Logs
+            Add Signal to Monitor PaymentLog
     Customer Portal
+        Add View for Logged-In Users
+        Create Dashboard Template
     Analytics & Reporting

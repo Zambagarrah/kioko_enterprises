@@ -1,0 +1,27 @@
+<h2>My Orders</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Total</th>
+      <th>Method</th>
+      <th>Status</th>
+      <th>Date</th>
+      <th>Receipt</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.id }}</td>
+      <td>KSh {{ order.total }}</td>
+      <td>{{ order.payment_method|capfirst }}</td>
+      <td>{{ order.status|capfirst }}</td>
+      <td>{{ order.created_at|date:"M j, Y" }}</td>
+      <td><a href="{% url 'printable_receipt' order.id %}">View</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">No orders found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>

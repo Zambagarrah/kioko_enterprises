@@ -6,6 +6,7 @@ from .views import (
     upload_bank_proof,
     printable_receipt,
     update_order_status,
+    order_history,
 )
 
 urlpatterns = [
@@ -15,4 +16,6 @@ urlpatterns = [
     path('upload-proof/<int:order_id>/', upload_bank_proof, name='upload_bank_proof'),
     path('receipt/<int:order_id>/', printable_receipt, name='printable_receipt'),
     path('staff/update-status/<int:order_id>/', update_order_status, name='update_order_status'),
+    path('my-orders/', order_history, name='order_history'),
+
 ]
