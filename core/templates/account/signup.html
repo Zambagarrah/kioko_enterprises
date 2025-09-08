@@ -1,24 +1,84 @@
 {% extends "base.html" %}
-{% load i18n %}
-
+{% load allauth i18n %}
+{% block head_title %}
+    {% trans "Signup" %}
+{% endblock head_title %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-6">
-    <h2 class="mb-4 text-center">Create Your Account</h2>
-    <form method="post" action="{% url 'account_signup' %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-success w-100">Sign Up</button>
-    </form>
-
-    <hr>
-    <p class="text-center">Or sign up with:</p>
-    <div class="text-center">
-      <a href="{% provider_login_url 'google' %}" class="btn btn-outline-danger">Google</a>
-    </div>
-    <p class="mt-3 text-center">
-      Already have an account? <a href="{% url 'account_login' %}">Login</a>
-    </p>
-  </div>
-</div>
-{% endblock %}
+        <style>
+            body {
+                background: linear-gradient(135deg, #fffbe6 0%, #ffffff 100%);
+                min-height: 100vh;
+            }
+            .signup-card {
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+                border-radius: 20px;
+                background: #fff;
+                border: none;
+                animation: fadeInUp 1s cubic-bezier(.39,.575,.565,1.000);
+                transition: box-shadow 0.3s;
+            }
+            .signup-card:hover {
+                box-shadow: 0 16px 48px 0 rgba(255, 193, 7, 0.25);
+            }
+            @keyframes fadeInUp {
+                0% { opacity: 0; transform: translateY(40px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+            .signup-title {
+                color: #ffc107;
+                font-weight: 700;
+                letter-spacing: 1px;
+            }
+            .btn-signup {
+                background-color: #ffc107;
+                border-color: #ffc107;
+                color: #fff;
+                font-weight: 600;
+                transition: background 0.2s;
+            }
+            .btn-signup:hover {
+                background-color: #ffda44;
+                border-color: #ffda44;
+                color: #212529;
+            }
+            .form-control:focus {
+                border-color: #ffc107;
+                box-shadow: 0 0 0 0.2rem rgba(255,193,7,.25);
+            }
+            .signup-card hr {
+                border-top: 1px solid #ffe082;
+            }
+            .signup-card a {
+                color: #ffc107;
+                text-decoration: underline;
+                transition: color 0.2s;
+            }
+            .signup-card a:hover {
+                color: #ffda44;
+            }
+        </style>
+        <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+            <div class="card signup-card p-4 col-md-6 col-lg-5">
+                <h2 class="signup-title mb-4 text-center">Sign Up</h2>
+                <p class="text-center mb-3">Already have an account? <a href="{{ login_url }}">Sign in</a>.</p>
+                {% if not SOCIALACCOUNT_ONLY %}
+                    {% url 'account_signup' as action_url %}
+                    <form method="post" action="{{ action_url }}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        {% comment %} {% element fields form=form unlabeled=True %}{% endelement %} {% endcomment %}
+                        {{ redirect_field }}
+                        <button type="submit" class="btn btn-signup w-100 mt-3">Sign Up</button>
+                    </form>
+                {% endif %}
+                {% if PASSKEY_SIGNUP_ENABLED %}
+                    <hr>
+                    <a href="{{ signup_by_passkey_url }}" class="btn btn-outline-primary w-100 mt-2">Sign up using a passkey</a>
+                {% endif %}
+                {% if SOCIALACCOUNT_ENABLED %}
+                    <hr>
+                    {% comment %} {% include "socialaccount/snippets/login.html" with page_layout="entrance" %} {% endcomment %}
+                {% endif %}
+            </div>
+        </div>
+{% endblock content %}

@@ -2,46 +2,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Kioko Enterprises</title>
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-<style>
-body {
-background: linear-gradient(135deg, #fffbe6 0%, #ffffff 100%);
-min-height: 100vh;
-font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
-}
-.navbar {
-background: #fff;
-box-shadow: 0 4px 16px 0 rgba(255, 193, 7, 0.08);
-border-bottom: 2px solid #ffe082;
-animation: fadeInDown 1s cubic-bezier(.39,.575,.565,1.000);
-}
-.navbar-brand {
-color: #ffc107 !important;
-font-weight: 700;
-font-size: 1.5rem;
-letter-spacing: 1px;
-transition: color 0.2s;
-}
-.navbar-brand:hover {
-color: #ffda44 !important;
-}
-@keyframes fadeInDown {
-0% { opacity: 0; transform: translateY(-40px); }
-100% { opacity: 1; transform: translateY(0); }
-}
-.container {
-animation: fadeInUp 1s cubic-bezier(.39,.575,.565,1.000);
-}
-@keyframes fadeInUp {
-0% { opacity: 0; transform: translateY(40px); }
-100% { opacity: 1; transform: translateY(0); }
-}
-</style>
+
+        <title>Kioko Enterprises</title>
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <style>
+            body {
+                background: linear-gradient(135deg, #fffbe6 0%, #ffffff 100%);
+                min-height: 100vh;
+                font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+            }
+            .navbar {
+                background: #fff;
+                box-shadow: 0 4px 16px 0 rgba(255, 193, 7, 0.08);
+                border-bottom: 2px solid #ffe082;
+                animation: fadeInDown 1s cubic-bezier(.39,.575,.565,1.000);
+            }
+            .navbar-brand {
+                color: #ffc107 !important;
+                font-weight: 700;
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+                transition: color 0.2s;
+            }
+            .navbar-brand:hover {
+                color: #ffda44 !important;
+            }
+            @keyframes fadeInDown {
+                0% { opacity: 0; transform: translateY(-40px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+            .container {
+                animation: fadeInUp 1s cubic-bezier(.39,.575,.565,1.000);
+            }
+            @keyframes fadeInUp {
+                0% { opacity: 0; transform: translateY(40px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+        </style>
+
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="#">Kioko Enterprises</a>
     </nav>
     <div class="container mt-4">
