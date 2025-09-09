@@ -19,4 +19,5 @@ urlpatterns = [
     path('staff/update-status/<int:order_id>/', update_order_status, name='update_order_status'),
     path('my-orders/', order_history, name='order_history'),
     path('support-request/<int:order_id>/', request_order_support, name='request_order_support'),
+
 ]
