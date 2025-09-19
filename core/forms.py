@@ -6,7 +6,6 @@ from .models import (
     Order,
     BankPaymentProof,
 )
-from phonenumber_field.formfields import PhoneNumberField
 
 
 class CustomUserCreationForm(UserCreationForm):

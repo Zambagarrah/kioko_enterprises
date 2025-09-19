@@ -1,15 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.shortcuts import redirect
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from core import views
 
 urlpatterns = [
-    path('', lambda request: redirect('product_list'), name='home'),
     path('admin/', admin.site.urls),
-    path('account/', include('allauth.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
 
 urlpatterns += [

@@ -30,7 +30,7 @@ from core.payment.gateways import (
 )
 
 
-def signup(request):
+def register(request):
     form = CustomUserCreationForm(request.POST or None)
     if form.is_valid():
         user = form.save(commit=False)
@@ -40,7 +40,7 @@ def signup(request):
         else:
             form.add_error('date_of_birth',
                            'You must be at least 18 years old to register.')
-    return render(request, 'account/signup.html', {'form': form}) #was register.html
+    return render(request, 'core/register.html', {'form': form})
 
 
 def product_list(request):

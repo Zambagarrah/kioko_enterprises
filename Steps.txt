@@ -179,9 +179,8 @@ Phase 7: Post-Payment Engagement
         Show Status on Receipt & Confirmation
         Auto-Update Order Status from Payment Logs
             Add Signal to Monitor PaymentLog
-            
     Customer Portal
-           Add View for Logged-In Users
+        Add View for Logged-In Users
         Create Dashboard Template
         Order Filtering & Search
             Add Filter Form to Dashboard
@@ -189,15 +188,4 @@ Phase 7: Post-Payment Engagement
             Show Images for Each Item
         Support Request Button
             Add “Need Help?” Button per Order
-            
-    Avril's work
-    1. Styling for sign up, login, products pages
-       Changing the accounts templates folder 
-    2. Styling for  products and cart pages
-     Actually figuring out what to do when adding a social application
-     account/ url auto fills to account/email
-     and the page redirects to home page which was declared on the urls.py file that the home page is the products_list page
-     There is no way yet for user to access the sign in and the sign up page
-       
     Analytics & Reporting
-
