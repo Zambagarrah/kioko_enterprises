@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth import get_user_model
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -31,7 +32,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     email = models.EmailField(unique=True)
-    phone_number = PhoneNumberField(region='KE', unique=True, null=True, blank=True)
+    phone_number = PhoneNumberField(
+        region='KE', unique=True, null=True, blank=True)
     date_of_birth = models.DateField()
     role = models.CharField(
         max_length=10, choices=ROLE_CHOICES, default='customer')
@@ -97,6 +99,9 @@ class Order(models.Model):
         ('processing', 'Processing'),
         ('shipped', 'Shipped'),
         ('delivered', 'Delivered'),
+        ('paid', 'Paid'),
+        ('verified', 'Verified'),
+        ('cancelled', 'Cancelled'),
     ]
 
     PAYMENT_METHODS = [
@@ -121,3 +126,37 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+User = get_user_model()
+
+
+class BankPaymentProof(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.CASCADE)
+    uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    proof_file = models.FileField(upload_to='bank_proofs/')
+    notes = models.TextField(blank=True)
+    verified = models.BooleanField(default=False)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Proof for Order #{self.order.id}"
+    
+class PaymentLog(models.Model):
+    PAYMENT_METHODS = [
+        ('mpesa', 'M-Pesa'),
+        ('paypal', 'PayPal'),
+        ('bank', 'Bank Transfer'),
+    ]
+
+    order = models.ForeignKey('Order', on_delete=models.CASCADE)
+    method = models.CharField(max_length=20, choices=PAYMENT_METHODS)
+    status = models.CharField(max_length=50)
+    reference = models.CharField(max_length=100, blank=True)
+    message = models.TextField(blank=True)
+    metadata = models.JSONField(blank=True, null=True)
+    logged_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.method.upper()} log for Order #{self.order.id}"
+

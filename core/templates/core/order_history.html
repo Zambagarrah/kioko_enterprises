@@ -1,0 +1,47 @@
+<h2>My Orders</h2>
+
+  <form method="get">
+    {{ form.as_p }}
+    <button type="submit">Filter</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Total</th>
+        <th>Method</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Receipt</th>
+        <th>Support</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td>{{ order.id }}</td>
+        <td>KSh {{ order.total }}</td>
+        <td>{{ order.payment_method|capfirst }}</td>
+        <td>{{ order.status|capfirst }}</td>
+        <td>{{ order.created_at|date:"M j, Y" }}</td>
+        <td><a href="{% url 'printable_receipt' order.id %}">View</a></td>
+        <td><a class="support-link" href="{% url 'request_order_support' order.id %}">Need Help?</a></td>
+      </tr>
+      <tr>
+        <td colspan="7">
+          {% for item in order.orderitem_set.all %}
+          <div class="product-block">
+            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="60" height="60">
+            <div>
+              <strong>{{ item.product.name }}</strong> × {{ item.quantity }} — KSh {{ item.price }}
+            </div>
+          </div>
+          {% endfor %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7">No orders found yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
