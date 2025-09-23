@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from phonenumber_field.formfields import PhoneNumberField
 from .models import (
     User,
     Order,
+    BankPaymentProof,
 )
 
 
@@ -26,3 +28,18 @@ class CheckoutForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['shipping_address', 'payment_method']
+        
+class BankPaymentProofForm(forms.ModelForm):
+    class Meta:
+        model = BankPaymentProof
+        fields = ['proof_file', 'notes']
+        
+class OrderFilterForm(forms.Form):
+    status = forms.ChoiceField(
+        choices=[('', 'All')] + Order.STATUS_CHOICES,
+        required=False
+    )
+    start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    product_name = forms.CharField(required=False)
+
