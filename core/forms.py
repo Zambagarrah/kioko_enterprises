@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from phonenumber_field.formfields import PhoneNumberField
+from allauth.account.forms import SignupForm
 from .models import (
     User,
     Order,
@@ -13,6 +14,26 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['email','phone_number', 'date_of_birth', 'password1', 'password2']
+        
+
+
+# class CustomSignupForm(SignupForm):
+#     date_of_birth = forms.DateField(
+#         required=True,
+#         widget=forms.DateInput(attrs={'type': 'date'})
+#     )
+
+#     def save(self, request):
+#         user = super().save(request)
+#         user.date_of_birth = self.cleaned_data['date_of_birth']
+#         user.save()
+#         return user
+
+class CustomSignupForm(SignupForm):
+    date_of_birth = forms.DateField(
+        required=True,
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
 
 
 class CheckoutForm(forms.ModelForm):
