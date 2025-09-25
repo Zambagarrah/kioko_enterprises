@@ -189,3 +189,5 @@ Phase 7: Post-Payment Engagement
         Support Request Button
             Add “Need Help?” Button per Order
     Analytics & Reporting
+
+FIX: Fixed the DOB issue at the signup page , but not the google sign up
