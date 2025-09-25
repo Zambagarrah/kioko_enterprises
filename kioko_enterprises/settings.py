@@ -62,9 +62,8 @@ AUTHENTICATION_BACKENDS = [
 
 # Email Auth Settings
 # Allauth configuration
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*", "date_of_birth*", "phone_number*"]
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
 LOGIN_REDIRECT_URL = '/'
@@ -72,6 +71,12 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+
+ACCOUNT_FORMS = {
+    'signup': 'core.forms.CustomSignupForm',
+}
+
+ACCOUNT_ADAPTER = 'core.adapters.CustomAccountAdapter'
 
 AUTH_USER_MODEL = 'core.User'
 
