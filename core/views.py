@@ -6,14 +6,12 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 import json
-
 import requests
 from core.utils.cart import get_or_create_cart
 from core.payment.messages import get_confirmation_message
 from core.utils.sms import send_sms_confirmation
 from core.utils.email import send_order_email
 from core.utils.payments import log_payment
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import (
     CustomUserCreationForm,
@@ -22,6 +20,7 @@ from .forms import (
     OrderFilterForm,
     ProfileEditForm,
 )
+
 from .models import (
     Product,
     Category,
@@ -29,6 +28,7 @@ from .models import (
     OrderItem,
     Order,
 )
+
 from core.payment.gateways import (
     get_paypal_access_token,
     process_mpesa,
@@ -222,6 +222,7 @@ def printable_receipt(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'core/printable_receipt.html', {'order': order})
 
+
 @staff_member_required
 def update_order_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
@@ -231,6 +232,7 @@ def update_order_status(request, order_id):
             order.status = new_status
             order.save()
     return render(request, 'core/update_order_status.html', {'order': order, 'choices': Order.STATUS_CHOICES})
+
 
 @login_required
 def order_history(request):
@@ -255,12 +257,15 @@ def order_history(request):
     orders = orders.distinct().order_by('-created_at')
     return render(request, 'core/order_history.html', {'orders': orders, 'form': form})
 
+
 @login_required
 def request_order_support(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     # Stub: log or email support request
-    print(f"Support requested for Order #{order.id} by {request.user.username}")
+    print(
+        f"Support requested for Order #{order.id} by {request.user.username}")
     return render(request, 'core/support_requested.html', {'order': order})
+
 
 @login_required
 def edit_profile(request):
@@ -274,3 +279,8 @@ def edit_profile(request):
 
     return render(request, 'core/edit_profile.html', {'form': form})
 
+
+@staff_member_required
+def staff_orders(request):
+    orders = Order.objects.all().order_by('-created_at')
+    return render(request, 'core/staff_orders.html', {'orders': orders})

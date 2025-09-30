@@ -9,6 +9,7 @@ from .views import (
     order_history,
     request_order_support,
     edit_profile,
+    staff_orders,
 )
 
 urlpatterns = [
@@ -21,4 +22,5 @@ urlpatterns = [
     path('my-orders/', order_history, name='order_history'),
     path('support-request/<int:order_id>/', request_order_support, name='request_order_support'),
     path('profile/edit/', edit_profile, name='edit_profile'),
+    path('staff/orders/', staff_orders, name='staff_orders'),
 ]

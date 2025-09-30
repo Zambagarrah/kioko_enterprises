@@ -1,0 +1,28 @@
+<h2>Staff Order Dashboard</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>User</th>
+      <th>Total</th>
+      <th>Status</th>
+      <th>Created</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.id }}</td>
+      <td>{{ order.user.email }}</td>
+      <td>KSh {{ order.total }}</td>
+      <td>{{ order.status }}</td>
+      <td>{{ order.created_at|date:"M j, Y H:i" }}</td>
+      <td>
+        <a href="{% url 'printable_receipt' order.id %}">Receipt</a> |
+        <a href="{% url 'update_order_status' order.id %}">Update</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

@@ -30,7 +30,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('staff', 'Staff'),
         ('customer', 'Customer'),
     )
-
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
     email = models.EmailField(unique=True)
     phone_number = PhoneNumberField(
         region='KE', unique=True, null=True, blank=True)
