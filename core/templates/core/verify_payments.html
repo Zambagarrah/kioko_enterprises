@@ -1,0 +1,23 @@
+<h2>Verify Payments</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Order</th>
+      <th>Method</th>
+      <th>Reference</th>
+      <th>Status</th>
+      <th>Logged</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for log in logs %}
+    <tr>
+      <td>{{ log.order.id }}</td>
+      <td>{{ log.method }}</td>
+      <td>{{ log.reference }}</td>
+      <td>{{ log.status }}</td>
+      <td>{{ log.logged_at|date:"M j, Y H:i" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

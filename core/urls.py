@@ -10,6 +10,7 @@ from .views import (
     request_order_support,
     edit_profile,
     staff_orders,
+    verify_payments,
 )
 
 urlpatterns = [
@@ -23,4 +24,5 @@ urlpatterns = [
     path('support-request/<int:order_id>/', request_order_support, name='request_order_support'),
     path('profile/edit/', edit_profile, name='edit_profile'),
     path('staff/orders/', staff_orders, name='staff_orders'),
+    path('staff/verify-payments/', verify_payments, name='verify_payments'),
 ]

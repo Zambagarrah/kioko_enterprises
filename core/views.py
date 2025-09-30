@@ -22,6 +22,7 @@ from .forms import (
 )
 
 from .models import (
+    PaymentLog,
     Product,
     Category,
     CartItem,
@@ -284,3 +285,9 @@ def edit_profile(request):
 def staff_orders(request):
     orders = Order.objects.all().order_by('-created_at')
     return render(request, 'core/staff_orders.html', {'orders': orders})
+
+@staff_member_required
+def verify_payments(request):
+    logs = PaymentLog.objects.filter(status='initiated').order_by('-logged_at')
+    return render(request, 'core/verify_payments.html', {'logs': logs})
+
