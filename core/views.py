@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
@@ -5,16 +6,21 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 import json
+
+import requests
 from core.utils.cart import get_or_create_cart
 from core.payment.messages import get_confirmation_message
 from core.utils.sms import send_sms_confirmation
 from core.utils.email import send_order_email
 from core.utils.payments import log_payment
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .forms import (
     CustomUserCreationForm,
     CheckoutForm,
     BankPaymentProofForm,
     OrderFilterForm,
+    ProfileEditForm,
 )
 from .models import (
     Product,
@@ -24,6 +30,7 @@ from .models import (
     Order,
 )
 from core.payment.gateways import (
+    get_paypal_access_token,
     process_mpesa,
     process_paypal,
     process_bank,
@@ -254,4 +261,16 @@ def request_order_support(request, order_id):
     # Stub: log or email support request
     print(f"Support requested for Order #{order.id} by {request.user.username}")
     return render(request, 'core/support_requested.html', {'order': order})
+
+@login_required
+def edit_profile(request):
+    user = request.user
+    form = ProfileEditForm(request.POST or None, instance=user)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, "Profile updated successfully.")
+        return redirect('edit_profile')
+
+    return render(request, 'core/edit_profile.html', {'form': form})
 

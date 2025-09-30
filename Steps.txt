@@ -191,3 +191,15 @@ Phase 7: Post-Payment Engagement
     Analytics & Reporting
 
 FIX: Fixed the DOB issue at the signup page , but not the google sign up
+
+Step 1: Create Profile Edit Form
+Step 2: Add Profile Edit View
+Step 3: Add URL Route
+Step 4: Create Template
+
+FEAT: Added a Logout Button.
+    Step 1: Add Logout URL
+    Step 2: Add Logout Button to Navbar or Sidebar
+    Step 3: Redirect After Logout (Optional)
+        LOGOUT_REDIRECT_URL = '/'
+    

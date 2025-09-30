@@ -67,6 +67,8 @@ ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*", "date_of_birth*",
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 ACCOUNT_LOGIN_METHODS = {'email'}

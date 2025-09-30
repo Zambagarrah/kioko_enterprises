@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from phonenumber_field.formfields import PhoneNumberField
+from django.contrib.auth import get_user_model
 from allauth.account.forms import SignupForm
 from django.core.exceptions import ValidationError
 from datetime import date
@@ -9,7 +10,6 @@ from .models import (
     Order,
     BankPaymentProof,
 )
-
 
 class CustomUserCreationForm(UserCreationForm):
     phone_number = PhoneNumberField(region='KE')
@@ -68,3 +68,26 @@ class OrderFilterForm(forms.Form):
     end_date = forms.DateField(
         required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     product_name = forms.CharField(required=False)
+
+User = get_user_model()
+
+class ProfileEditForm(forms.ModelForm):
+    phone_number = PhoneNumberField(required=True)
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'phone_number', 'date_of_birth']
+
+    def clean_date_of_birth(self):
+        dob = self.cleaned_data['date_of_birth']
+        today = date.today()
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        if age < 18:
+            raise forms.ValidationError("You must be at least 18 years old.")
+        return dob
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.exclude(pk=self.instance.pk).filter(email=email).exists():
+            raise forms.ValidationError("This email address is already in use.")
+        return email
