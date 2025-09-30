@@ -1,0 +1,21 @@
+<h2>Support Inbox</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Order</th>
+      <th>User</th>
+      <th>Message</th>
+      <th>Created</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for req in requests %}
+    <tr>
+      <td>{{ req.order.id }}</td>
+      <td>{{ req.user.email }}</td>
+      <td>{{ req.message }}</td>
+      <td>{{ req.created_at|date:"M j, Y H:i" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

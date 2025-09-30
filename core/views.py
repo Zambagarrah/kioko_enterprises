@@ -28,6 +28,9 @@ from .models import (
     CartItem,
     OrderItem,
     Order,
+    BankPaymentProof,
+    SupportRequest,
+    CustomUser,
 )
 
 from core.payment.gateways import (
@@ -286,8 +289,14 @@ def staff_orders(request):
     orders = Order.objects.all().order_by('-created_at')
     return render(request, 'core/staff_orders.html', {'orders': orders})
 
+
 @staff_member_required
 def verify_payments(request):
     logs = PaymentLog.objects.filter(status='initiated').order_by('-logged_at')
     return render(request, 'core/verify_payments.html', {'logs': logs})
 
+
+@staff_member_required
+def support_inbox(request):
+    requests = SupportRequest.objects.all().order_by('-created_at')
+    return render(request, 'core/support_inbox.html', {'requests': requests})
