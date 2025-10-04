@@ -11,6 +11,7 @@ from .views import (
     edit_profile,
     staff_orders,
     verify_payments,
+    update_delivery_status,
 )
 
 urlpatterns = [
@@ -25,4 +26,5 @@ urlpatterns = [
     path('profile/edit/', edit_profile, name='edit_profile'),
     path('staff/orders/', staff_orders, name='staff_orders'),
     path('staff/verify-payments/', verify_payments, name='verify_payments'),
+    path('staff/update-delivery/<int:order_id>/', update_delivery_status, name='update_delivery_status'),
 ]

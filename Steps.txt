@@ -208,4 +208,8 @@ Phase 8 Overview: Staff Tools & Fulfillment
     Step 2: Staff Order Dashboard
     Step 3: Payment Verification Panel
     Step 4: Support Request Inbox
+    
+    Delivery Tracking
+        Extended the order model to accomodate delivery Tracking
+        Add Staff Update View
 

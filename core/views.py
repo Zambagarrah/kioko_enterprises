@@ -299,3 +299,15 @@ def verify_payments(request):
 def support_inbox(request):
     requests = SupportRequest.objects.all().order_by('-created_at')
     return render(request, 'core/support_inbox.html', {'requests': requests})
+
+@staff_member_required
+def update_delivery_status(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.method == 'POST':
+        new_status = request.POST.get('delivery_status')
+        order.delivery_status = new_status
+        order.save()
+        messages.success(request, "Delivery status updated.")
+        return redirect('staff_orders')
+    return render(request, 'core/update_delivery_status.html', {'order': order})
+
