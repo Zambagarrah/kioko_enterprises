@@ -283,6 +283,22 @@ def edit_profile(request):
 
     return render(request, 'core/edit_profile.html', {'form': form})
 
+@login_required
+def dashboard_redirect(request):
+    role = request.user.role
+    if role == 'admin':
+        return redirect('staff_orders')
+    elif role == 'youth_lab':
+        return redirect('youth_lab_dashboard')
+    else:
+        return redirect('edit_profile')
+
+@login_required
+def youth_lab_dashboard(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'core/youth_lab_dashboard.html', {'orders': orders})
+
+
 
 @staff_member_required
 def staff_orders(request):

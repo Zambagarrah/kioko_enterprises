@@ -12,6 +12,7 @@ from .views import (
     staff_orders,
     verify_payments,
     update_delivery_status,
+    dashboard_redirect,
 )
 
 urlpatterns = [
@@ -28,5 +29,6 @@ urlpatterns = [
     path('staff/verify-payments/', verify_payments, name='verify_payments'),
     path('staff/update-delivery/<int:order_id>/', update_delivery_status, name='update_delivery_status'),
     path('staff/export-orders/', views.export_orders_csv, name='export_orders_csv'),
+    path('dashboard/', dashboard_redirect, name='dashboard_redirect'),
 
 ]

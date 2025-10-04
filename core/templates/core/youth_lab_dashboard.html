@@ -1,0 +1,6 @@
+<h2>Welcome to Your Youth Lab Dashboard</h2>
+<ul>
+  {% for order in orders %}
+    <li>Order #{{ order.id }} – {{ order.status }} – {{ order.delivery_status }}</li>
+  {% endfor %}
+</ul>
