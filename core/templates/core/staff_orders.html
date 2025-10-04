@@ -23,6 +23,7 @@
         <a href="{% url 'update_order_status' order.id %}">Update</a>
       </td>
     </tr>
+    <p><a href="{% url 'export_orders_csv' %}">Download CSV Report</a></p>
     {% endfor %}
   </tbody>
 </table>

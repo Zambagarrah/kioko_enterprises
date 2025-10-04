@@ -1,12 +1,13 @@
+import json
+import requests
+import csv
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-import json
-import requests
 from core.utils.cart import get_or_create_cart
 from core.payment.messages import get_confirmation_message
 from core.utils.sms import send_sms_confirmation
@@ -24,12 +25,12 @@ from .forms import (
 from .models import (
     PaymentLog,
     Product,
-    Category,
+    # Category,
     CartItem,
     OrderItem,
     Order,
     # BankPaymentProof,
-    # SupportRequest,
+    SupportRequest,
 )
 
 from core.payment.gateways import (
@@ -310,4 +311,26 @@ def update_delivery_status(request, order_id):
         messages.success(request, "Delivery status updated.")
         return redirect('staff_orders')
     return render(request, 'core/update_delivery_status.html', {'order': order})
+
+
+
+@staff_member_required
+def export_orders_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="orders.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['ID', 'User', 'Total', 'Status', 'Delivery', 'Created'])
+
+    for order in Order.objects.all():
+        writer.writerow([
+            order.id,
+            order.user.email,
+            order.total,
+            order.status,
+            order.delivery_status,
+            order.created_at.strftime('%Y-%m-%d %H:%M')
+        ])
+
+    return response
 
