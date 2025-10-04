@@ -104,6 +104,7 @@ class Order(models.Model):
         ('verified', 'Verified'),
         ('cancelled', 'Cancelled'),
     ]
+    
 
     PAYMENT_METHODS = [
         ('mpesa', 'M-Pesa'),
@@ -111,6 +112,18 @@ class Order(models.Model):
         ('paypal', 'PayPal'),
         ('bank', 'Bank Transfer'),
     ]
+    
+    DELIVERY_CHOICES = [
+        ('pending', 'Pending'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+    ]
+
+    delivery_status = models.CharField(
+        max_length=20,
+        choices=DELIVERY_CHOICES,
+        default='pending'
+    )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     shipping_address = models.TextField()

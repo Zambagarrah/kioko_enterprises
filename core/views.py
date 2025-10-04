@@ -28,9 +28,8 @@ from .models import (
     CartItem,
     OrderItem,
     Order,
-    BankPaymentProof,
-    SupportRequest,
-    CustomUser,
+    # BankPaymentProof,
+    # SupportRequest,
 )
 
 from core.payment.gateways import (
