@@ -29,7 +29,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('admin', 'Admin'),
         ('staff', 'Staff'),
         ('customer', 'Customer'),
+        ('youth_lab', 'Youth Lab'),
+        ('guest', 'Guest')
     )
+
+
+
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
     email = models.EmailField(unique=True)
@@ -41,6 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     shipping_address = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='staff')
 
     objects = UserManager()
 
@@ -103,8 +109,7 @@ class Order(models.Model):
         ('paid', 'Paid'),
         ('verified', 'Verified'),
         ('cancelled', 'Cancelled'),
-    ]
-    
+    ]    
 
     PAYMENT_METHODS = [
         ('mpesa', 'M-Pesa'),
