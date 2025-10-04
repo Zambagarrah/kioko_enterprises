@@ -30,7 +30,7 @@ from .models import (
     OrderItem,
     Order,
     # BankPaymentProof,
-    SupportRequest,
+    # SupportRequest,
 )
 
 from core.payment.gateways import (
