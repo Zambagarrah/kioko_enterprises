@@ -361,3 +361,12 @@ def export_orders_csv(request):
 @staff_member_required
 def staff_home(request):
     return render(request, 'core/staff_home.html')
+
+
+@staff_member_required
+def confirm_delivery(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order.delivery_status = 'delivered'
+    order.save()
+    messages.success(request, f"Order #{order.id} marked as delivered.")
+    return redirect('staff_orders')

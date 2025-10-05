@@ -231,5 +231,8 @@ Phase 8 Overview: Staff Tools & Fulfillment
         Add Location Fields to Order Model
         Add SMS Notification Hook
         Embed Map in Receipt or Dashboard
+
+    Delivery Confirmation Button
+        
         
 

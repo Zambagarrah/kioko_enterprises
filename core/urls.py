@@ -15,6 +15,7 @@ from .views import (
     dashboard_redirect,
     export_orders_csv,
     staff_home,
+    confirm_delivery,
 )
 
 urlpatterns = [
@@ -33,4 +34,5 @@ urlpatterns = [
     path('staff/export-orders/', export_orders_csv, name='export_orders_csv'),
     path('dashboard/', dashboard_redirect, name='dashboard_redirect'),
     path('staff/', staff_home, name='staff_home'),
+    path('staff/confirm-delivery/<int:order_id>/', confirm_delivery, name='confirm_delivery'),
 ]
