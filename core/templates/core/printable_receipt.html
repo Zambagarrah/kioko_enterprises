@@ -21,6 +21,17 @@
       <strong>Payment Method:</strong> {{ order.payment_method }}<br>
       <strong>Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}
     </div>
+    {% if order.delivery_location %}
+      <h3>Delivery Location</h3>
+      <iframe
+        width="100%"
+        height="300"
+        frameborder="0"
+        style="border:0"
+        src="https://www.google.com/maps?q={{ order.delivery_location|urlencode }}&output=embed"
+        allowfullscreen>
+      </iframe>
+    {% endif %}
     <button class="print-btn" onclick="window.print()">Print Receipt</button>
   </div>
 </body>
