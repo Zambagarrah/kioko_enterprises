@@ -7,6 +7,8 @@ from .models import (
     BankPaymentProof,
     PaymentLog,
 )
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 admin.site.register(Category)
 admin.site.register(Product)
@@ -53,3 +55,10 @@ class PaymentLogAdmin(admin.ModelAdmin):
 
 
 admin.site.register(PaymentLog, PaymentLogAdmin)
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('email', 'role', 'date_of_birth', 'is_staff')
+    list_filter = ('role', 'is_staff')
+    search_fields = ('email',)
+
