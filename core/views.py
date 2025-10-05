@@ -350,3 +350,8 @@ def export_orders_csv(request):
 
     return response
 
+@staff_member_required
+def staff_home(request):
+    return render(request, 'core/staff_home.html')
+
+

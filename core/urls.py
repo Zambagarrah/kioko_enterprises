@@ -13,6 +13,8 @@ from .views import (
     verify_payments,
     update_delivery_status,
     dashboard_redirect,
+    export_orders_csv,
+    staff_home,
 )
 
 urlpatterns = [
@@ -28,7 +30,7 @@ urlpatterns = [
     path('staff/orders/', staff_orders, name='staff_orders'),
     path('staff/verify-payments/', verify_payments, name='verify_payments'),
     path('staff/update-delivery/<int:order_id>/', update_delivery_status, name='update_delivery_status'),
-    path('staff/export-orders/', views.export_orders_csv, name='export_orders_csv'),
+    path('staff/export-orders/', export_orders_csv, name='export_orders_csv'),
     path('dashboard/', dashboard_redirect, name='dashboard_redirect'),
-
+    path('staff/', staff_home, name='staff_home'),
 ]
