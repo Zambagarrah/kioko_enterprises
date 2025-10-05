@@ -10,7 +10,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from core.utils.cart import get_or_create_cart
 from core.payment.messages import get_confirmation_message
-from core.utils.sms import send_sms_confirmation
+from core.utils.sms import (
+    send_sms_confirmation,
+    send_delivery_sms
+)
 from core.utils.email import send_order_email
 from core.utils.payments import log_payment
 from django.contrib import messages
@@ -283,6 +286,7 @@ def edit_profile(request):
 
     return render(request, 'core/edit_profile.html', {'form': form})
 
+
 @login_required
 def dashboard_redirect(request):
     role = request.user.role
@@ -293,11 +297,11 @@ def dashboard_redirect(request):
     else:
         return redirect('edit_profile')
 
+
 @login_required
 def youth_lab_dashboard(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'core/youth_lab_dashboard.html', {'orders': orders})
-
 
 
 @staff_member_required
@@ -317,9 +321,13 @@ def support_inbox(request):
     requests = SupportRequest.objects.all().order_by('-created_at')
     return render(request, 'core/support_inbox.html', {'requests': requests})
 
+
 @staff_member_required
 def update_delivery_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
+    if new_status == 'shipped':
+        send_delivery_sms(order.user, order)
+
     if request.method == 'POST':
         new_status = request.POST.get('delivery_status')
         order.delivery_status = new_status
@@ -327,7 +335,6 @@ def update_delivery_status(request, order_id):
         messages.success(request, "Delivery status updated.")
         return redirect('staff_orders')
     return render(request, 'core/update_delivery_status.html', {'order': order})
-
 
 
 @staff_member_required
@@ -350,8 +357,7 @@ def export_orders_csv(request):
 
     return response
 
+
 @staff_member_required
 def staff_home(request):
     return render(request, 'core/staff_home.html')
-
-
