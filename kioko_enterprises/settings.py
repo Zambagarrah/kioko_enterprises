@@ -77,6 +77,7 @@ ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_FORMS = {
     'signup': 'core.forms.CustomSignupForm',
 }
+
 ACCOUNT_ADAPTER = 'core.adapters.CustomAccountAdapter'
 
 

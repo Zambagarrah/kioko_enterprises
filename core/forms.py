@@ -9,6 +9,7 @@ from .models import (
     User,
     Order,
     BankPaymentProof,
+    ROLE_CHOICES,
 )
 
 class CustomUserCreationForm(UserCreationForm):
@@ -26,6 +27,7 @@ class CustomSignupForm(SignupForm):
         required=True,
         widget=forms.DateInput(attrs={'type': 'date'})
     )
+    role = forms.ChoiceField(choices=ROLE_CHOICES)
 
     def clean_date_of_birth(self):
         dob = self.cleaned_data['date_of_birth']
@@ -34,6 +36,14 @@ class CustomSignupForm(SignupForm):
         if age < 18:
             raise ValidationError("You must be at least 18 years old to register.")
         return dob
+    
+    def save(self, request):
+        user = super().save(request)
+        user.date_of_birth = self.cleaned_data['date_of_birth']
+        user.role = self.cleaned_data['role']
+        user.save()
+        return user
+
 
 
 

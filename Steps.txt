@@ -220,5 +220,16 @@ Phase 8 Overview: Staff Tools & Fulfillment
     Role-Based Dashboards (Youth Labs vs Admin)
         Add Role Field to User Model
         Add Role-Based Routing
+
+    Enable Role Selection During Signup & Admin
+        Add Role to Signup Form
+        Add Role to Admin Panel
+
+    Branded /staff Landing Page with Quick Links
+
+    Delivery Map + SMS Notification for Shipped Orders
+        Add Location Fields to Order Model
+        Add SMS Notification Hook
+        Embed Map in Receipt or Dashboard
         
 
