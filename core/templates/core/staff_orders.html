@@ -24,7 +24,7 @@
         {% if order.delivery_status != 'delivered' %}
           <a href="{% url 'confirm_delivery' order.id %}">Confirm Delivery</a>
         {% else %}
-          <span>Delivered ✅</span>
+          <span>Delivered ✅ </span>
         {% endif %}
 
       </td>
