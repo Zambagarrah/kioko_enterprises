@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Kioko – Youth Lab Dashboard{% endblock %}
+{% block content %}
+<h2>Welcome to Your Youth Lab Dashboard</h2>
+<ul>
+  {% for order in orders %}
+    <li>Order #{{ order.id }} – {{ order.status }} – {{ order.delivery_status }}</li>
+  {% endfor %}
+</ul>
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}
+

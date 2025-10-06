@@ -189,3 +189,59 @@ Phase 7: Post-Payment Engagement
         Support Request Button
             Add “Need Help?” Button per Order
     Analytics & Reporting
+
+FIX: Fixed the DOB issue at the signup page , but not the google sign up
+
+Step 1: Create Profile Edit Form
+Step 2: Add Profile Edit View
+Step 3: Add URL Route
+Step 4: Create Template
+
+FEAT: Added a Logout Button.
+    Step 1: Add Logout URL
+    Step 2: Add Logout Button to Navbar or Sidebar
+    Step 3: Redirect After Logout (Optional)
+        LOGOUT_REDIRECT_URL = '/'
+
+Phase 8 Overview: Staff Tools & Fulfillment
+    Step 1: Staff Access Control
+    Step 2: Staff Order Dashboard
+    Step 3: Payment Verification Panel
+    Step 4: Support Request Inbox
+    
+    Delivery Tracking
+        Extended the order model to accomodate delivery Tracking
+        Add Staff Update View
+        add delivery status tracking and staff update view
+    
+    Export Reports for Staff
+        Add CSV Export View, URL and added the link button in staff orders template
+
+    Role-Based Dashboards (Youth Labs vs Admin)
+        Add Role Field to User Model
+        Add Role-Based Routing
+
+    Enable Role Selection During Signup & Admin
+        Add Role to Signup Form
+        Add Role to Admin Panel
+
+    Branded /staff Landing Page with Quick Links
+
+    Delivery Map + SMS Notification for Shipped Orders
+        Add Location Fields to Order Model
+        Add SMS Notification Hook
+        Embed Map in Receipt or Dashboard
+
+    Delivery Confirmation Button
+
+Phase 9: UI/UX Polish & Emotional Intelligence
+    Global Styling & Layout
+    Emotionally Intelligent Feedback  
+        Add Django messages to all templates:     
+    Mobile Responsiveness
+        Add viewport meta tag to base.html
+        Add responsive tweaks to style.css
+    Add Kioko Logo to Navbar
+    Add Footer with Contact Info or Mission
+    Add Favicon and Page Titles
+

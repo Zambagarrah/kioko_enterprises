@@ -1,6 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Kioko – Upload Bank Payment Proof{% endblock %}
+{% block content %}
 <h2>Upload Bank Payment Proof</h2>
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit">Submit Proof</button>
 </form>
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}
+

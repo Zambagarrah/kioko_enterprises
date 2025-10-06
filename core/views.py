@@ -1,29 +1,43 @@
+import json
+import requests
+import csv
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-import json
 from core.utils.cart import get_or_create_cart
 from core.payment.messages import get_confirmation_message
-from core.utils.sms import send_sms_confirmation
+from core.utils.sms import (
+    send_sms_confirmation,
+    send_delivery_sms
+)
 from core.utils.email import send_order_email
 from core.utils.payments import log_payment
+from django.contrib import messages
 from .forms import (
     CustomUserCreationForm,
     CheckoutForm,
     BankPaymentProofForm,
     OrderFilterForm,
+    ProfileEditForm,
 )
+
 from .models import (
+    PaymentLog,
     Product,
-    Category,
+    # Category,
     CartItem,
     OrderItem,
     Order,
+    # BankPaymentProof,
+    # SupportRequest,
 )
+
 from core.payment.gateways import (
+    get_paypal_access_token,
     process_mpesa,
     process_paypal,
     process_bank,
@@ -215,6 +229,7 @@ def printable_receipt(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'core/printable_receipt.html', {'order': order})
 
+
 @staff_member_required
 def update_order_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
@@ -224,6 +239,7 @@ def update_order_status(request, order_id):
             order.status = new_status
             order.save()
     return render(request, 'core/update_order_status.html', {'order': order, 'choices': Order.STATUS_CHOICES})
+
 
 @login_required
 def order_history(request):
@@ -248,10 +264,109 @@ def order_history(request):
     orders = orders.distinct().order_by('-created_at')
     return render(request, 'core/order_history.html', {'orders': orders, 'form': form})
 
+
 @login_required
 def request_order_support(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     # Stub: log or email support request
-    print(f"Support requested for Order #{order.id} by {request.user.username}")
+    print(
+        f"Support requested for Order #{order.id} by {request.user.username}")
     return render(request, 'core/support_requested.html', {'order': order})
 
+
+@login_required
+def edit_profile(request):
+    user = request.user
+    form = ProfileEditForm(request.POST or None, instance=user)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, "Profile updated successfully.")
+        return redirect('edit_profile')
+
+    return render(request, 'core/edit_profile.html', {'form': form})
+
+
+@login_required
+def dashboard_redirect(request):
+    role = request.user.role
+    if role == 'admin':
+        return redirect('staff_orders')
+    elif role == 'youth_lab':
+        return redirect('youth_lab_dashboard')
+    else:
+        return redirect('edit_profile')
+
+
+@login_required
+def youth_lab_dashboard(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'core/youth_lab_dashboard.html', {'orders': orders})
+
+
+@staff_member_required
+def staff_orders(request):
+    orders = Order.objects.all().order_by('-created_at')
+    return render(request, 'core/staff_orders.html', {'orders': orders})
+
+
+@staff_member_required
+def verify_payments(request):
+    logs = PaymentLog.objects.filter(status='initiated').order_by('-logged_at')
+    return render(request, 'core/verify_payments.html', {'logs': logs})
+
+
+@staff_member_required
+def support_inbox(request):
+    requests = SupportRequest.objects.all().order_by('-created_at')
+    return render(request, 'core/support_inbox.html', {'requests': requests})
+
+
+@staff_member_required
+def update_delivery_status(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if new_status == 'shipped':
+        send_delivery_sms(order.user, order)
+
+    if request.method == 'POST':
+        new_status = request.POST.get('delivery_status')
+        order.delivery_status = new_status
+        order.save()
+        messages.success(request, "Delivery status updated.")
+        return redirect('staff_orders')
+    return render(request, 'core/update_delivery_status.html', {'order': order})
+
+
+@staff_member_required
+def export_orders_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="orders.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['ID', 'User', 'Total', 'Status', 'Delivery', 'Created'])
+
+    for order in Order.objects.all():
+        writer.writerow([
+            order.id,
+            order.user.email,
+            order.total,
+            order.status,
+            order.delivery_status,
+            order.created_at.strftime('%Y-%m-%d %H:%M')
+        ])
+
+    return response
+
+
+@staff_member_required
+def staff_home(request):
+    return render(request, 'core/staff_home.html')
+
+
+@staff_member_required
+def confirm_delivery(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order.delivery_status = 'delivered'
+    order.save()
+    messages.success(request, f"Order #{order.id} marked as delivered.")
+    return redirect('staff_orders')

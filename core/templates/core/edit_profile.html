@@ -1,14 +1,20 @@
-{% extends "base.html" %}
 {% block title %}Kioko – Dashboard{% endblock %}
+{% extends "base.html" %}
 {% block content %}
-<h2>Checkout</h2>
+<h2>Edit Profile</h2>
 <form method="post">
   {% csrf_token %}
-  {{ form.shipping_address.label_tag }} {{ form.shipping_address }}
-  {{ form.payment_method.label_tag }} {{ form.payment_method }}
-  <button type="submit" class="btn btn-primary">Place Order</button>
+  {{ form.as_p }}
+  <button type="submit">Save Changes</button>
 </form>
+
 {% if messages %}
+  <ul>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% if messages %}
   <div class="messages">
     {% for message in messages %}
       <p class="message {{ message.tags }}">{{ message }}</p>
@@ -16,4 +22,5 @@
   </div>
 {% endif %}
 
+{% endif %}
 {% endblock %}

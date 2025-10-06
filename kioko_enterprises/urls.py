@@ -39,3 +39,7 @@ urlpatterns += [
     path('checkout/', views.checkout, name='checkout'),
     path('order-success/', views.order_success, name='order_success'),
 ]
+
+urlpatterns += [
+    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+]

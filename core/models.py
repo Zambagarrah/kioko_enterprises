@@ -29,8 +29,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('admin', 'Admin'),
         ('staff', 'Staff'),
         ('customer', 'Customer'),
+        ('youth_lab', 'Youth Lab'),
+        ('guest', 'Guest')
     )
 
+
+
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
     email = models.EmailField(unique=True)
     phone_number = PhoneNumberField(
         region='KE', unique=True, null=True, blank=True)
@@ -40,6 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     shipping_address = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='staff')
 
     objects = UserManager()
 
@@ -102,7 +109,7 @@ class Order(models.Model):
         ('paid', 'Paid'),
         ('verified', 'Verified'),
         ('cancelled', 'Cancelled'),
-    ]
+    ]    
 
     PAYMENT_METHODS = [
         ('mpesa', 'M-Pesa'),
@@ -110,9 +117,22 @@ class Order(models.Model):
         ('paypal', 'PayPal'),
         ('bank', 'Bank Transfer'),
     ]
+    
+    DELIVERY_CHOICES = [
+        ('pending', 'Pending'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+    ]
+
+    delivery_status = models.CharField(
+        max_length=20,
+        choices=DELIVERY_CHOICES,
+        default='pending'
+    )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     shipping_address = models.TextField()
+    delivery_location = models.CharField(max_length=255, blank=True)
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(

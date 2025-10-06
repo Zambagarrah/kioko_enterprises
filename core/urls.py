@@ -8,6 +8,14 @@ from .views import (
     update_order_status,
     order_history,
     request_order_support,
+    edit_profile,
+    staff_orders,
+    verify_payments,
+    update_delivery_status,
+    dashboard_redirect,
+    export_orders_csv,
+    staff_home,
+    confirm_delivery,
 )
 
 urlpatterns = [
@@ -19,4 +27,12 @@ urlpatterns = [
     path('staff/update-status/<int:order_id>/', update_order_status, name='update_order_status'),
     path('my-orders/', order_history, name='order_history'),
     path('support-request/<int:order_id>/', request_order_support, name='request_order_support'),
+    path('profile/edit/', edit_profile, name='edit_profile'),
+    path('staff/orders/', staff_orders, name='staff_orders'),
+    path('staff/verify-payments/', verify_payments, name='verify_payments'),
+    path('staff/update-delivery/<int:order_id>/', update_delivery_status, name='update_delivery_status'),
+    path('staff/export-orders/', export_orders_csv, name='export_orders_csv'),
+    path('dashboard/', dashboard_redirect, name='dashboard_redirect'),
+    path('staff/', staff_home, name='staff_home'),
+    path('staff/confirm-delivery/<int:order_id>/', confirm_delivery, name='confirm_delivery'),
 ]

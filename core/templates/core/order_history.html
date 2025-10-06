@@ -1,3 +1,6 @@
+{% block title %}Kioko – Dashboard{% endblock %}
+{% extends "base.html" %}
+{% block content %}
 <h2>My Orders</h2>
 
   <form method="get">
@@ -45,3 +48,12 @@
       {% endfor %}
     </tbody>
   </table>
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% endblock %}

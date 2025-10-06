@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Kioko – Staff Portal{% endblock %}
+{% block content %}
+<h2>Welcome to Kioko Staff Portal</h2>
+<ul>
+  <li><a href="{% url 'staff_orders' %}">Manage Orders</a></li>
+  <li><a href="{% url 'verify_payments' %}">Verify Payments</a></li>
+  <li><a href="{% url 'support_inbox' %}">Support Inbox</a></li>
+  <li><a href="{% url 'analytics_dashboard' %}">Analytics Dashboard</a></li>
+  <li><a href="{% url 'export_orders_csv' %}">Download CSV Report</a></li>
+</ul>
+<p>Use the links above to navigate through staff functionalities.</p>
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}
+

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+{% block title %}Kioko – Dashboard{% endblock %}
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-md-6">
@@ -20,5 +20,13 @@
       Already have an account? <a href="{% url 'account_login' %}">Login</a>
     </p>
   </div>
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
 </div>
 {% endblock %}

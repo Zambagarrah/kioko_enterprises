@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Kioko – Staff Orders{% endblock %}
+{% block content %}
+<h2>Staff Order Dashboard</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>User</th>
+      <th>Total</th>
+      <th>Status</th>
+      <th>Created</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.id }}</td>
+      <td>{{ order.user.email }}</td>
+      <td>KSh {{ order.total }}</td>
+      <td>{{ order.status }}</td>
+      <td>{{ order.created_at|date:"M j, Y H:i" }}</td>
+      <td>
+        <a href="{% url 'printable_receipt' order.id %}">Receipt</a> |
+        <a href="{% url 'update_order_status' order.id %}">Update</a>
+        {% if order.delivery_status != 'delivered' %}
+          <a href="{% url 'confirm_delivery' order.id %}">Confirm Delivery</a>
+        {% else %}
+          <span>Delivered ✅ </span>
+        {% endif %}
+
+      </td>
+    </tr>
+    <p><a href="{% url 'export_orders_csv' %}">Download CSV Report</a></p>
+    {% endfor %}
+  </tbody>
+</table>
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}
+
