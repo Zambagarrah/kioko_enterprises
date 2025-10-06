@@ -41,8 +41,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone_number = PhoneNumberField(
         region='KE', unique=True, null=True, blank=True)
     date_of_birth = models.DateField()
-    role = models.CharField(
-        max_length=10, choices=ROLE_CHOICES, default='customer')
     shipping_address = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

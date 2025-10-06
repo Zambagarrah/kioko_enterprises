@@ -9,7 +9,6 @@ from .models import (
     User,
     Order,
     BankPaymentProof,
-    ROLE_CHOICES,
 )
 
 
@@ -27,8 +26,7 @@ class CustomSignupForm(SignupForm):
         required=True,
         widget=forms.DateInput(attrs={'type': 'date'})
     )
-    role = forms.ChoiceField(choices=ROLE_CHOICES)
-
+    
     def clean_date_of_birth(self):
         dob = self.cleaned_data['date_of_birth']
         today = date.today()
