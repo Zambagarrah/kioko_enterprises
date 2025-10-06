@@ -1,26 +1,19 @@
-{% block title %}Kioko – Dashboard{% endblock %}
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% block title %}Kioko – Edit Profile{% endblock %}
+
 {% block content %}
-<h2>Edit Profile</h2>
+<h2>Edit Your Profile</h2>
+
+{% if messages %}
+  {% for message in messages %}
+    <p class="message {{ message.tags }}">{{ message }}</p>
+  {% endfor %}
+{% endif %}
+
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit">Save Changes</button>
 </form>
-
-{% if messages %}
-  <ul>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% if messages %}
-  <div class="messages">
-    {% for message in messages %}
-      <p class="message {{ message.tags }}">{{ message }}</p>
-    {% endfor %}
-  </div>
-{% endif %}
-
-{% endif %}
 {% endblock %}
+
