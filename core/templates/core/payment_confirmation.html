@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Kioko – Payment Confirmation{% endblock %}
+{% block content %}
 <h2>Bank Transfer Instructions</h2>
 <pre>{{ message }}</pre>
 <p><strong>Order Status:</strong> {{ order.status|capfirst }}</p>
@@ -9,4 +12,6 @@
     {% endfor %}
   </div>
 {% endif %}
+
+{% endblock %}
 

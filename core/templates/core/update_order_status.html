@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Kioko – Update Order Status{% endblock %}
+{% block content %}
 <h2>Update Status for Order #{{ order.id }}</h2>
 <form method="post">
   {% csrf_token %}
@@ -15,4 +18,5 @@
     {% endfor %}
   </div>
 {% endif %}
+{% endblock %}
 

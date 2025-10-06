@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Kioko – Youth Lab Dashboard{% endblock %}
+{% block content %}
 <h2>Welcome to Your Youth Lab Dashboard</h2>
 <ul>
   {% for order in orders %}
@@ -11,4 +14,5 @@
     {% endfor %}
   </div>
 {% endif %}
+{% endblock %}
 

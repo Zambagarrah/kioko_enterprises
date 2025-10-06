@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Kioko – Staff Portal{% endblock %}
+{% block content %}
 <h2>Welcome to Kioko Staff Portal</h2>
 <ul>
   <li><a href="{% url 'staff_orders' %}">Manage Orders</a></li>
@@ -14,4 +17,5 @@
     {% endfor %}
   </div>
 {% endif %}
+{% endblock %}
 
