@@ -317,6 +317,22 @@ def request_order_support(request, order_id):
         f"Support requested for Order #{order.id} by {request.user.username}")
     return render(request, 'core/support_requested.html', {'order': order})
 
+@login_required
+def support_request(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.method == 'POST':
+        form = SupportRequestForm(request.POST)
+        if form.is_valid():
+            req = form.save(commit=False)
+            req.user = request.user
+            req.order = order
+            req.save()
+            messages.success(request, "We’ve received your request 💬")
+            return redirect('my_orders')
+    else:
+        form = SupportRequestForm()
+    return render(request, 'core/support_request.html', {'form': form, 'order': order})
+
 
 @login_required
 def edit_profile(request):
