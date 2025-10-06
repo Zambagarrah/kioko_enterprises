@@ -1,1 +1,2 @@
 fix title for each template
+commented checkout function in core/views.py
