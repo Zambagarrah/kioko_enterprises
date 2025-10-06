@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Kioko – Analytics{% endblock %}
+
+{% block content %}
+<h2>Staff Analytics Dashboard</h2>
+
+<div class="metrics">
+  <p>Total Orders: {{ total_orders }}</p>
+  <p>Paid Orders: {{ paid_orders }}</p>
+  <p>Delivered: {{ delivered_orders }}</p>
+</div>
+
+<div class="chart">
+  <img src="{% static 'img/sample_chart.png' %}" alt="Chart">
+</div>
+{% endblock %}
