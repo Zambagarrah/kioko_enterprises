@@ -1,2 +1,3 @@
 fix title for each template
 commented checkout function in core/views.py
+commented upload_bank_proof in core/views.py
