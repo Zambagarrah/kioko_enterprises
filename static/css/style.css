@@ -57,6 +57,12 @@ button:hover {
   border-radius: 4px;
 }
 
+footer {
+  color: #555;
+  border-top: 1px solid #ccc;
+}
+
+
 @media (max-width: 768px) {
   table, thead, tbody, th, td, tr {
     display: block;
