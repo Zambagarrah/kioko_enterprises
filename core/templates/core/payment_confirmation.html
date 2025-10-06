@@ -2,3 +2,11 @@
 <pre>{{ message }}</pre>
 <p><strong>Order Status:</strong> {{ order.status|capfirst }}</p>
 <p>Once payment is made, we’ll verify and process your order.</p>
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+

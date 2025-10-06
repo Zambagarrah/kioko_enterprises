@@ -30,5 +30,13 @@
       </p>
     {% endif %}
   </div>
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
 </div>
 {% endblock %}

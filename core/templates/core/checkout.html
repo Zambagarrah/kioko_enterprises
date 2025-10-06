@@ -7,4 +7,12 @@
   {{ form.payment_method.label_tag }} {{ form.payment_method }}
   <button type="submit" class="btn btn-primary">Place Order</button>
 </form>
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
 {% endblock %}

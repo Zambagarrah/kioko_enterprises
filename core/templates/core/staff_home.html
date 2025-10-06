@@ -7,3 +7,11 @@
   <li><a href="{% url 'export_orders_csv' %}">Download CSV Report</a></li>
 </ul>
 <p>Use the links above to navigate through staff functionalities.</p>
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+

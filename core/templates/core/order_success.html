@@ -4,4 +4,12 @@
   <h4>Your order has been placed successfully!</h4>
   <p>We’ll contact you shortly to confirm payment and delivery.</p>
 </div>
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
 {% endblock %}
