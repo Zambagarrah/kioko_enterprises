@@ -12,6 +12,7 @@ from .models import (
     ROLE_CHOICES,
 )
 
+
 class CustomUserCreationForm(UserCreationForm):
     phone_number = PhoneNumberField(region='KE')
 
@@ -19,7 +20,6 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ['email', 'phone_number',
                   'date_of_birth', 'password1', 'password2']
-
 
 
 class CustomSignupForm(SignupForm):
@@ -32,19 +32,19 @@ class CustomSignupForm(SignupForm):
     def clean_date_of_birth(self):
         dob = self.cleaned_data['date_of_birth']
         today = date.today()
-        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        age = today.year - dob.year - \
+            ((today.month, today.day) < (dob.month, dob.day))
         if age < 18:
-            raise ValidationError("You must be at least 18 years old to register.")
+            raise ValidationError(
+                "You must be at least 18 years old to register.")
         return dob
-    
+
     def save(self, request):
         user = super().save(request)
         user.date_of_birth = self.cleaned_data['date_of_birth']
         user.role = self.cleaned_data['role']
         user.save()
         return user
-
-
 
 
 class CheckoutForm(forms.ModelForm):
@@ -79,25 +79,32 @@ class OrderFilterForm(forms.Form):
         required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     product_name = forms.CharField(required=False)
 
+
 User = get_user_model()
+
 
 class ProfileEditForm(forms.ModelForm):
     phone_number = PhoneNumberField(required=True)
-    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'phone_number', 'date_of_birth']
+        fields = ['first_name', 'last_name',
+                  'email', 'phone_number', 'date_of_birth']
 
     def clean_date_of_birth(self):
         dob = self.cleaned_data['date_of_birth']
         today = date.today()
-        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        age = today.year - dob.year - \
+            ((today.month, today.day) < (dob.month, dob.day))
         if age < 18:
             raise forms.ValidationError("You must be at least 18 years old.")
         return dob
+
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.exclude(pk=self.instance.pk).filter(email=email).exists():
-            raise forms.ValidationError("This email address is already in use.")
+            raise forms.ValidationError(
+                "This email address is already in use.")
         return email
