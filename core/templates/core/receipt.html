@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Receipt for Order #{{ order.id }}</title>
-  <style>
-    body { font-family: Arial; margin: 2em; }
-    .receipt-box { border: 1px solid #ccc; padding: 1em; max-width: 600px; }
-    .header { font-size: 1.5em; margin-bottom: 1em; }
-    .info { margin-bottom: 1em; }
-    .print-btn { margin-top: 2em; }
-  </style>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Kioko – Receipt #{{ order.id }}{% endblock %}
+
+{% block content %}
   <div class="receipt-box">
-    <div class="header">Kioko Enterprises Receipt</div>
+    <h2 class="header">Receipt</h2>
     <div class="info">
       <strong>Order ID:</strong> {{ order.id }}<br>
       <strong>Status:</strong> {{ order.status|capfirst }}<br>
@@ -21,6 +12,12 @@
       <strong>Payment Method:</strong> {{ order.payment_method }}<br>
       <strong>Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}
     </div>
+
+    {% if order.qr_code %}
+      <h3>Track Delivery</h3>
+      <img src="{{ order.qr_code.url }}" alt="QR Code">
+    {% endif %}
+
     {% if order.delivery_location %}
       <h3>Delivery Location</h3>
       <iframe
@@ -34,13 +31,10 @@
     {% endif %}
     <button class="print-btn" onclick="window.print()">Print Receipt</button>
     {% if messages %}
-  <div class="messages">
-    {% for message in messages %}
-      <p class="message {{ message.tags }}">{{ message }}</p>
-    {% endfor %}
-  </div>
-{% endif %}
-
-  </div>
-</body>
-</html>
+      <div class="messages">
+        {% for message in messages %}
+          <p class="message {{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+{% endblock %}

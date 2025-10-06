@@ -239,9 +239,13 @@ def upload_bank_proof(request, order_id):
 
 
 @login_required
-def printable_receipt(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
-    return render(request, 'core/printable_receipt.html', {'order': order})
+def receipt(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    
+    if request.user != order.user and not request.user.is_staff:
+        return HttpResponseForbidden("Access denied.")
+    return render(request, 'core/receipt.html', {'order': order})
+
 
 
 @staff_member_required
