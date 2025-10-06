@@ -236,5 +236,7 @@ Phase 8 Overview: Staff Tools & Fulfillment
 
 Phase 9: UI/UX Polish & Emotional Intelligence
     Global Styling & Layout
-    Emotionally Intelligent Feedback       
+    Emotionally Intelligent Feedback  
+        Add Django messages to all templates:     
+        
 

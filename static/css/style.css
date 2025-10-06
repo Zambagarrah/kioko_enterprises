@@ -35,3 +35,24 @@ button, input[type="submit"] {
 button:hover {
   background-color: #3498db;
 }
+
+.message.success {
+  background-color: #dff0d8;
+  color: #3c763d;
+  padding: 1em;
+  border-radius: 4px;
+}
+
+.message.error {
+  background-color: #f2dede;
+  color: #a94442;
+  padding: 1em;
+  border-radius: 4px;
+}
+
+.message.info {
+  background-color: #d9edf7;
+  color: #31708f;
+  padding: 1em;
+  border-radius: 4px;
+}
