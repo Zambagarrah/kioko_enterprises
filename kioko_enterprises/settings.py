@@ -60,10 +60,11 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+
 # Email Auth Settings
 # Allauth configuration
 ACCOUNT_LOGIN_METHODS = {"email"}
-ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*", "date_of_birth*", "phone_number*"]
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
 LOGIN_REDIRECT_URL = '/'
@@ -72,7 +73,12 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*', 'date_of_birth*']
+ACCOUNT_ADAPTER = 'core.adapters.CustomAccountAdapter'
+
+ACCOUNT_FORMS = {
+    'signup': 'core.forms.CustomSignupForm',
+}
 
 ACCOUNT_FORMS = {
     'signup': 'core.forms.CustomSignupForm',
@@ -82,6 +88,7 @@ ACCOUNT_ADAPTER = 'core.adapters.CustomAccountAdapter'
 
 
 AUTH_USER_MODEL = 'core.User'
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

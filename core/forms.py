@@ -1,10 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from phonenumber_field.formfields import PhoneNumberField
-from django.contrib.auth import get_user_model
 from allauth.account.forms import SignupForm
-from django.core.exceptions import ValidationError
-from datetime import date
 from .models import (
     User,
     Order,
@@ -17,34 +14,27 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['email', 'phone_number',
-                  'date_of_birth', 'password1', 'password2']
+        fields = ['email','phone_number', 'date_of_birth', 'password1', 'password2']
+        
 
 
+# class CustomSignupForm(SignupForm):
+#     date_of_birth = forms.DateField(
+#         required=True,
+#         widget=forms.DateInput(attrs={'type': 'date'})
+#     )
+
+#     def save(self, request):
+#         user = super().save(request)
+#         user.date_of_birth = self.cleaned_data['date_of_birth']
+#         user.save()
+#         return user
 
 class CustomSignupForm(SignupForm):
     date_of_birth = forms.DateField(
         required=True,
         widget=forms.DateInput(attrs={'type': 'date'})
     )
-    role = forms.ChoiceField(choices=ROLE_CHOICES)
-
-    def clean_date_of_birth(self):
-        dob = self.cleaned_data['date_of_birth']
-        today = date.today()
-        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
-        if age < 18:
-            raise ValidationError("You must be at least 18 years old to register.")
-        return dob
-    
-    def save(self, request):
-        user = super().save(request)
-        user.date_of_birth = self.cleaned_data['date_of_birth']
-        user.role = self.cleaned_data['role']
-        user.save()
-        return user
-
-
 
 
 class CheckoutForm(forms.ModelForm):
