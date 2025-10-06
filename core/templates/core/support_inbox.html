@@ -1,12 +1,14 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block title %}Kioko – Support Inbox{% endblock %}
+
 {% block content %}
 <h2>Support Inbox</h2>
+
 <table>
   <thead>
     <tr>
-      <th>Order</th>
       <th>User</th>
+      <th>Order</th>
       <th>Message</th>
       <th>Created</th>
     </tr>
@@ -14,21 +16,12 @@
   <tbody>
     {% for req in requests %}
     <tr>
-      <td>{{ req.order.id }}</td>
       <td>{{ req.user.email }}</td>
+      <td>#{{ req.order.id }}</td>
       <td>{{ req.message }}</td>
       <td>{{ req.created_at|date:"M j, Y H:i" }}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-{% if messages %}
-  <div class="messages">
-    {% for message in messages %}
-      <p class="message {{ message.tags }}">{{ message }}</p>
-    {% endfor %}
-  </div>
-{% endif %}
-
 {% endblock %}
-

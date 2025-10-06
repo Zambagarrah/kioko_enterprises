@@ -382,6 +382,7 @@ def support_inbox(request):
     return render(request, 'core/support_inbox.html', {'requests': requests})
 
 
+
 @staff_member_required
 def update_delivery_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
