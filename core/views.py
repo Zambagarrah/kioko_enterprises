@@ -224,18 +224,35 @@ def paypal_callback(request):
     })
 
 
-def upload_bank_proof(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
-    form = BankPaymentProofForm(request.POST or None, request.FILES or None)
+# def upload_bank_proof(request, order_id):
+#     order = get_object_or_404(Order, id=order_id, user=request.user)
+#     form = BankPaymentProofForm(request.POST or None, request.FILES or None)
 
-    if request.method == 'POST' and form.is_valid():
-        proof = form.save(commit=False)
-        proof.order = order
-        proof.uploaded_by = request.user
-        proof.save()
-        return redirect('proof_success')
+#     if request.method == 'POST' and form.is_valid():
+#         proof = form.save(commit=False)
+#         proof.order = order
+#         proof.uploaded_by = request.user
+#         proof.save()
+#         return redirect('proof_success')
 
-    return render(request, 'core/upload_bank_proof.html', {'form': form, 'order': order})
+#     return render(request, 'core/upload_bank_proof.html', {'form': form, 'order': order})
+
+
+@login_required
+def upload_proof(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.method == 'POST':
+        form = PaymentProofForm(request.POST, request.FILES)
+        if form.is_valid():
+            proof = form.save(commit=False)
+            proof.order = order
+            proof.user = request.user
+            proof.save()
+            messages.success(request, "Proof uploaded successfully.")
+            return redirect('my_orders')
+    else:
+        form = PaymentProofForm()
+    return render(request, 'core/upload_proof.html', {'form': form, 'order': order})
 
 
 @login_required
