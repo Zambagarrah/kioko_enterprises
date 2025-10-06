@@ -2,6 +2,8 @@
 {% block title %}Kioko – Staff Orders{% endblock %}
 {% block content %}
 <h2>Staff Order Dashboard</h2>
+<p><a href="{% url 'export_orders_csv' %}">Export CSV</a></p>
+
 <table>
   <thead>
     <tr>
@@ -16,7 +18,7 @@
   <tbody>
     {% for order in orders %}
     <tr>
-      <td>{{ order.id }}</td>
+      <td>#{{ order.id }}</td>
       <td>{{ order.user.email }}</td>
       <td>KSh {{ order.total }}</td>
       <td>{{ order.status }}</td>

@@ -258,8 +258,8 @@ def update_order_status(request, order_id):
 @login_required
 def order_history(request):
     form = OrderFilterForm(request.GET or None)
-    orders = Order.objects.filter(user=request.user)
-
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    
     if form.is_valid():
         status = form.cleaned_data.get('status')
         start = form.cleaned_data.get('start_date')
