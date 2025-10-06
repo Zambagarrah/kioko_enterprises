@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Kioko – Track Delivery{% endblock %}
+
+{% block content %}
+<h2>Track Your Delivery</h2>
+<p>Status: <strong>{{ order.delivery_status|capfirst }}</strong></p>
+
+{% if order.delivery_status == 'shipped' %}
+  <p>Your order is on the way 🚚</p>
+{% elif order.delivery_status == 'delivered' %}
+  <p>Your order has arrived ✅</p>
+{% else %}
+  <p>Preparing your order 🛠️</p>
+{% endif %}
+
+{% if order.delivery_location %}
+  <h3>Delivery Location</h3>
+  <iframe
+    width="100%"
+    height="300"
+    frameborder="0"
+    style="border:0"
+    src="https://www.google.com/maps?q={{ order.delivery_location|urlencode }}&output=embed"
+    allowfullscreen>
+  </iframe>
+{% endif %}
+{% endblock %}

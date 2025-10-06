@@ -5,7 +5,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from core.utils.cart import get_or_create_cart
@@ -257,6 +257,15 @@ def update_order_status(request, order_id):
             order.status = new_status
             order.save()
     return render(request, 'core/update_order_status.html', {'order': order, 'choices': Order.STATUS_CHOICES})
+
+
+@login_required
+def track_delivery(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.user != order.user and not request.user.is_staff:
+        return HttpResponseForbidden("Access denied.")
+    return render(request, 'core/track_delivery.html', {'order': order})
+
 
 
 @login_required
