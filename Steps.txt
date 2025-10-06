@@ -252,3 +252,6 @@ Phase 9: UI/UX Polish & Emotional Intelligence
         /profile/edit/ → clean form, success messages, mobile layout
         /receipt/<id>/ → printable layout, QR code, map embed
         /track-delivery/<id>/ → live status, location, emotional reassurance
+
+        style: polish staff support inbox with quick actions and mobile layout
+        style: polish staff analytics dashboard with visual metrics and mobile layout

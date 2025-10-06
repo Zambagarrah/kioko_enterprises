@@ -1,7 +1,9 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block title %}Kioko – Verify Payments{% endblock %}
+
 {% block content %}
 <h2>Verify Payments</h2>
+
 <table>
   <thead>
     <tr>
@@ -15,21 +17,13 @@
   <tbody>
     {% for log in logs %}
     <tr>
-      <td>{{ log.order.id }}</td>
+      <td>#{{ log.order.id }}</td>
       <td>{{ log.method }}</td>
       <td>{{ log.reference }}</td>
-      <td>{{ log.status }}</td>
+      <td>🟡 {{ log.status }}</td>
       <td>{{ log.logged_at|date:"M j, Y H:i" }}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-{% if messages %}
-  <div class="messages">
-    {% for message in messages %}
-      <p class="message {{ message.tags }}">{{ message }}</p>
-    {% endfor %}
-  </div>
-{% endif %}
 {% endblock %}
-
