@@ -96,69 +96,83 @@ def view_cart(request):
     return render(request, 'core/cart.html', {'cart': cart})
 
 
+# @login_required
+# def checkout(request):
+#     cart = get_or_create_cart(request)
+#     form = CheckoutForm(request.POST or None)
+
+#     if request.method == 'POST' and form.is_valid():
+#         # Create order
+#         order = form.save(commit=False)
+#         order.user = request.user
+#         order.total = sum(item.product.price *
+#                           item.quantity for item in cart.items.all())
+#         order.save()
+
+#         # Create order items
+#         for item in cart.items.all():
+#             OrderItem.objects.create(
+#                 order=order,
+#                 product=item.product,
+#                 quantity=item.quantity,
+#                 price=item.product.price
+#             )
+#         cart.items.all().delete()
+
+#         # Dispatch payment processor
+#         method = form.cleaned_data['payment_method']
+#         gateway_map = {
+#             'mpesa': process_mpesa,
+#             'paypal': process_paypal,
+#             'bank': process_bank,
+#             # 'airtel': process_airtel,  # Temporarily disabled
+#         }
+
+#         processor = gateway_map.get(method)
+#         if processor:
+#             result = processor(order)
+
+#             # Log payment attempt
+#             log_payment(order, method, 'initiated',
+#                         f"{method.capitalize()} payment triggered.")
+
+#             # Send SMS confirmation
+#             send_sms_confirmation(
+#                 order.user.phone_number,
+#                 f"Order #{order.id} received. Payment method: {method.capitalize()}."
+#             )
+
+#             # Send order confirmation email
+#             send_order_email(order.user, order)
+
+#             # Handle gateway-specific response
+#             if method == 'paypal':
+#                 return redirect(result)
+
+#             elif method == 'bank':
+#                 return render(request, 'core/payment_confirmation.html', {'message': result})
+
+#             else:
+#                 message = get_confirmation_message(method, order.id)
+#                 return render(request, 'core/payment_confirmation.html', {'message': message})
+#         else:
+#             return render(request, 'core/payment_confirmation.html', {'message': "Invalid payment method selected."})
+
+#     return render(request, 'core/checkout.html', {'form': form, 'cart': cart})
+
 @login_required
 def checkout(request):
-    cart = get_or_create_cart(request)
-    form = CheckoutForm(request.POST or None)
-
-    if request.method == 'POST' and form.is_valid():
-        # Create order
-        order = form.save(commit=False)
-        order.user = request.user
-        order.total = sum(item.product.price *
-                          item.quantity for item in cart.items.all())
-        order.save()
-
-        # Create order items
-        for item in cart.items.all():
-            OrderItem.objects.create(
-                order=order,
-                product=item.product,
-                quantity=item.quantity,
-                price=item.product.price
-            )
-        cart.items.all().delete()
-
-        # Dispatch payment processor
-        method = form.cleaned_data['payment_method']
-        gateway_map = {
-            'mpesa': process_mpesa,
-            'paypal': process_paypal,
-            'bank': process_bank,
-            # 'airtel': process_airtel,  # Temporarily disabled
-        }
-
-        processor = gateway_map.get(method)
-        if processor:
-            result = processor(order)
-
-            # Log payment attempt
-            log_payment(order, method, 'initiated',
-                        f"{method.capitalize()} payment triggered.")
-
-            # Send SMS confirmation
-            send_sms_confirmation(
-                order.user.phone_number,
-                f"Order #{order.id} received. Payment method: {method.capitalize()}."
-            )
-
-            # Send order confirmation email
-            send_order_email(order.user, order)
-
-            # Handle gateway-specific response
-            if method == 'paypal':
-                return redirect(result)
-
-            elif method == 'bank':
-                return render(request, 'core/payment_confirmation.html', {'message': result})
-
-            else:
-                message = get_confirmation_message(method, order.id)
-                return render(request, 'core/payment_confirmation.html', {'message': message})
-        else:
-            return render(request, 'core/payment_confirmation.html', {'message': "Invalid payment method selected."})
-
-    return render(request, 'core/checkout.html', {'form': form, 'cart': cart})
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.user = request.user
+            order.save()
+            messages.success(request, "Order placed successfully! 🎉")
+            return redirect('receipt', order.id)
+    else:
+        form = CheckoutForm()
+    return render(request, 'core/checkout.html', {'form': form})
 
 
 def order_success(request):

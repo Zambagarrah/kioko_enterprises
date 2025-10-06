@@ -244,4 +244,11 @@ Phase 9: UI/UX Polish & Emotional Intelligence
     Add Kioko Logo to Navbar
     Add Footer with Contact Info or Mission
     Add Favicon and Page Titles
-
+    UI/UX Polish by Module
+        /checkout/ → clean form layout, mobile-first, emotional feedback
+        /my-orders/ → responsive table, status icons, filters
+        /staff/orders/ → admin tone, quick actions, delivery status
+        /accounts/signup/ → calendar picker, age validation, role selection
+        /profile/edit/ → clean form, success messages, mobile layout
+        /receipt/<id>/ → printable layout, QR code, map embed
+        /track-delivery/<id>/ → live status, location, emotional reassurance
