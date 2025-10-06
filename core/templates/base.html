@@ -49,9 +49,17 @@ animation: fadeInUp 1s cubic-bezier(.39,.575,.565,1.000);
 </style> {% endcomment %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Kioko Enterprises</a>
-    </nav>
+<nav>
+    <a href="/">
+        <img src="{% static '/img/kioko_logo.webp' %}" alt="Kioko Logo" style="height: 40px;">
+    </a>
+    <!-- Add nav links here -->
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/products/">Products</a></li>
+        <li><a href="/contact/">Contact</a></li>
+    </ul>
     <div class="container mt-4">
         {% block content %}{% endblock %}
     </div>
